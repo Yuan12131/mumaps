@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import styles from "@/app/styles/index.module.scss";
+import styles from "@/app/styles/main.module.scss";
 import Topbar from "@/app/components/Topbar";
 
 interface DataItem {
@@ -23,10 +23,8 @@ function Index() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.top}>
+      <div className={styles.banner1}>
       <Topbar />
-      </div>
-      <div className={`${styles.div} ${styles.gray}`}>
         {hasWindow && (
           <video
             className={styles.video}
@@ -37,14 +35,23 @@ function Index() {
           />
         )}
         <div className={styles.box1}>
+          나만의 취향으로 만드는 <br></br>나만의 플레이리스트<br></br>
+          <Link href={`/algorithm`}>
+          <button>지금 바로 시작하기</button>
+          </Link>
         </div>
       </div>
-      <div className={`${styles.div} ${styles.yellow}`}>
+
+      <div className={styles.banner2}>
+        <div className={styles.searchbox}>🔍
+        <input type="text" placeholder="듣고싶은 곡을 검색하세요" className={styles.search}/>
+        </div>
       </div>
-      <div className={`${styles.div} ${styles.purple}`}>
-        {/* <SlideComponent/> */}
+      <div className={styles.banner3}>
       </div>
-      <div className={`${styles.div} ${styles.blue}`}>
+      <div className={styles.banner4}>
+      </div>
+      <div className={styles.banner5}>
       </div>
     </div>
   );
