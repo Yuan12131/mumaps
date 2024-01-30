@@ -40,7 +40,16 @@ app.get('/searchSpotify', async (req, res) => {
     const { query } = req.query;
 
     // 클라이언트로부터 받은 검색어를 이용해 Spotify API에 검색 요청
-    const tokenResponse = await axios.post('http://localhost:3001/getSpotifyToken');
+    const tokenResponse = await axios.post(
+      'http://localhost:3001/getSpotifyToken',
+      'grant_type=client_credentials',  // 추가된 부분
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      }
+    );
+
     const accessToken = tokenResponse.data.accessToken;
 
     const searchResponse = await axios.get(
@@ -58,6 +67,7 @@ app.get('/searchSpotify', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
