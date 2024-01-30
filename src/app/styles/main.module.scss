@@ -56,6 +56,26 @@
   height: 20vh;
 }
 
+.form{
+  box-sizing: border-box;
+  width: 20vw;
+  height: 7vh;
+  border-radius: 30px;
+  border: 2px solid #000;
+  background: #FAF4F4;
+  font-size: 1.2rem;
+}
+
+.search{
+  box-sizing: border-box;
+  width: 20vw;
+  height: 7vh;
+  background-color: rgba(248, 204, 212, 0);
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+}
 
 .banner3{
   height:80vh;
