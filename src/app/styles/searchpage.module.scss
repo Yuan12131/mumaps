@@ -1,0 +1,36 @@
+.container{
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.div2 {
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  height: 20vh;
+}
+
+.div3 {
+  height: 50vh;
+  width: 80vw;
+  display: flex;
+  flex-direction: column;
+color: white;
+flex-wrap: wrap;
+overflow: auto;
+}
+
+.li{
+color: white;
+text-decoration: none;
+}
+
+.result{
+  display: flex;
+  border: 1px solid white;
+  margin-bottom: 1vw;
+}
