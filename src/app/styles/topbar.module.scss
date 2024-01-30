@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Sixtyfour&display=swap');
+
+.topbar{
+  width: 100vw;
+  height: 15vh;
+  display: flex;
+}
+
+.div1{
+  width: 25vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  a{
+    color: white;
+    text-decoration: none;
+  }
+}
+
+.linkname{
+  margin-right:2vw;
+  text-decoration: none;
+}
+
+.div2{
+  width: 50vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Sixtyfour', sans-serif;
+  font-size: 3rem;
+  text-align: center;
+  a{
+    color: white;
+    text-decoration: none;
+  }
+}
+
+.div3{
+  width: 25vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  a{
+    color: white;
+    text-decoration: none;
+    background-color: rgba(0, 0, 0, 0.532);
+    border-radius: 5px;
+    width: 70px;
+    height: 25px;
+    text-align: center;
+    margin: 5px;
+    line-height: 25px;
+    font-size: 13px;
+  }
+}
