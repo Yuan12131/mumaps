@@ -44,8 +44,17 @@ function Index() {
       </div>
 
       <div className={styles.banner2}>
+      <Link href="/search" >
+    <form className={styles.form}>
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="🔍  지금 검색하러 가기"
+        className={styles.search}
+        />
+        </form>
+        </Link>
 
-        <Search/>
       </div>
       <div className={styles.banner3}>
       </div>
