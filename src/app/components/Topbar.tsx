@@ -1,14 +1,14 @@
 'use client'
 
 import React, { useState, useEffect } from "react";
-import styles from "@/app/styles/topbar.module.scss";
 import Link from "next/link";
+import styles from "@/app/styles/topbar.module.scss";
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
 const links = [
-  { name: 'Search', href: '/Search' },
-  { name: 'Algorithm', href: '/Algorithm' },
-  { name: 'Map', href: '/Map' }
+  { name: 'Search', href: '/search' },
+  { name: 'Algorithm', href: '/algorithm' },
+  { name: 'Map', href: '/map' }
 ];
 
 
@@ -48,17 +48,21 @@ function Topbar() {
 
   return (
     <div className={styles.topbar}>
+
       <div className={styles.div1}>{links.map((link) => (
         <Link
           key={link.name}
           href={link.href}
         >
-          <p className={`${styles.linkname}`}>{link.name}</p>
+          <p className={styles.linkname}>{link.name}</p>
         </Link>
-      ))}</div>
-      <div className={styles.div2}>
-        <Link href="/" >MUMAP</Link>
+      ))}
       </div>
+
+      <div className={styles.div2}>
+        <Link href="/" >MUMAPS</Link>
+      </div>
+
       <div className={styles.div3}>
         {isLoggedIn ? (
           <>
@@ -73,6 +77,7 @@ function Topbar() {
           </>
         )}
       </div>
+
     </div>
   );
 }
