@@ -1,0 +1,95 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+}
+
+.banner1 {
+  width: 100vw;
+  height: 85vh;
+  position: relative;
+  display:flex;
+  flex-direction: column;
+
+  .box1{
+    width:35vw;
+    height: 30vh;
+    margin-top: 20vh;
+    margin-left: 5vw;
+    font-size: 2rem;
+    color:white;
+    font-weight: 700;
+  }
+  button{
+    width:10vw;
+    height:5vh;
+    border:0;
+    border-radius: 20px;
+    background-color: black;
+    color: white;
+    margin-left: 2vw;
+    &:hover {
+      background-color: white;
+      color: black;
+      ;
+      cursor: pointer;
+    }
+  }
+}
+
+.video {
+  position: absolute;
+  display:flex;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 85vh;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.banner2 {
+  background-color: #f6f1eb;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  height: 20vh;
+}
+.searchbox{
+  box-sizing: border-box;
+  width: 25vw;
+  height: 7vh;
+  border-radius: 5px;
+  border: 2px solid #000;
+  background: #FAF4F4;
+  padding-left: 1vw;
+  font-size: 1.2rem;
+}
+
+.search{
+  box-sizing: border-box;
+  width: 20vw;
+  height: 7vh;
+  background-color: rgba(248, 204, 212, 0);
+  margin-left: 1vw;
+  font-size: 1rem;
+  border: none;
+}
+.search:focus {
+  outline: none; /* 예시로 포커스 시 아웃라인을 제거하는 스타일 */
+}
+
+.banner3{
+  height:80vh;
+  background-color: #f3e1cb;
+}
+
+.banner4{
+  height:80vh;
+  background-color: #f1d4b2;
+}
+
+.banner5{
+  height:30vh;
+  background-color: #ffbe73;
+}
