@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "@/app/styles/main.module.scss";
 import Topbar from "@/app/components/Topbar";
+import Search from "@/app/components/Search";
 
 interface DataItem {
   name: string;
@@ -43,9 +44,8 @@ function Index() {
       </div>
 
       <div className={styles.banner2}>
-        <div className={styles.searchbox}>🔍
-        <input type="text" placeholder="듣고싶은 곡을 검색하세요" className={styles.search}/>
-        </div>
+
+        <Search/>
       </div>
       <div className={styles.banner3}>
       </div>
