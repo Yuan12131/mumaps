@@ -1,10 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, FormEvent } from "react";
 import styles from "@/app/styles/searchpage.module.scss";
 import Topbar from "@/app/components/Topbar";
-import Search from "@/app/components/Search";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
@@ -13,18 +12,21 @@ interface TrackInfo {
   name: string;
   artists: Artist[];
   album: Album;
+  images: Image[];
   duration_ms: number;
+  release_date:string;
 }
 
 interface Artist {
   id: string;
+  images: Image[];
   name: string;
 }
 
 interface Album {
   id: string;
-  name: string;
   images: Image[];
+  name: string;
 }
 
 interface Image {
@@ -34,15 +36,15 @@ interface Image {
 const SearchPage = () => {
   const [query, setQuery] = useState<string>("");
   const [searchResults, setSearchResults] = useState<TrackInfo[]>([]);
+  const [searchType, setSearchType] = useState<string>("track"); // 초기값은 'track'으로 설정
   const router = useRouter();
+  const [isActive, setIsActive] = useState<boolean>(false);
 
-  const searchSpotify = async (query: string) => {
+  const searchSpotify = async (query: string, searchType: string) => {
     try {
-      // 클라이언트 ID와 클라이언트 시크릿은 실제 값으로 대체되어야 합니다.
       const clientId = "60e467fba3aa4b0e94cc77ddaa0e5937";
       const clientSecret = "8a878c6477db49b49105c0fcded3084f";
 
-      // Spotify API에 인증 토큰을 요청합니다.
       const tokenResponse = await axios.post(
         "https://accounts.spotify.com/api/token",
         "grant_type=client_credentials",
@@ -58,9 +60,8 @@ const SearchPage = () => {
 
       const accessToken = tokenResponse.data.access_token;
 
-      // Spotify API에서 곡을 검색합니다.
       const searchResponse = await axios.get(
-        `https://api.spotify.com/v1/search?q=${query}&type=track`,
+        `https://api.spotify.com/v1/search?q=${query}&type=${searchType}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -68,23 +69,27 @@ const SearchPage = () => {
         }
       );
 
-      const items = searchResponse.data.tracks.items;
+      const items = searchResponse.data[`${searchType}s`]?.items || [];
+
+      if (!items) {
+        console.error("No items found in the Spotify search response");
+        return;
+      }
 
       setSearchResults(items);
       router.push("/search");
-      console.log(items);
     } catch (error) {
       console.error("Error searching Spotify:", error);
     }
   };
 
-  const handleSearchComplete = (query: string) => {
+  const handleSearchComplete = (query: string, searchType: string) => {
     setQuery(query); // 검색 완료 시 검색어 설정
-    searchSpotify(query); // Spotify 검색 호출
-    console.log("Search completed with query:", query);
+    setSearchType(searchType); // 검색 유형 업데이트
+    searchSpotify(query, searchType); // Spotify 검색 호출
   };
 
-  const formatDuration = (durationInMs:number) => {
+  const formatDuration = (durationInMs: number) => {
     const totalSeconds = durationInMs / 1000;
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = Math.floor(totalSeconds % 60);
@@ -95,32 +100,146 @@ const SearchPage = () => {
     return `${formattedMinutes}:${formattedSeconds}`;
   };
 
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    handleSearchComplete(query, searchType);
+  };
+
+  const onClick = (selectedType: string) => {
+    setSearchType(selectedType);
+    setIsActive(true); // 버튼 활성화 상태 변경
+    setSearchResults([]);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.div1}>
         <Topbar />
       </div>
       <div className={styles.div2}>
-        <Search onSearchComplete={handleSearchComplete} />
+        <form onSubmit={onSubmit} className={styles.form}>
+          <div className={styles.btndiv}>
+            <button
+              type="button"
+              value="track"
+              onClick={() => onClick("track")}
+              className={
+                searchType === "track" && isActive ? styles.active : ""
+              }
+            >
+              TRACK
+            </button>
+            <button
+              type="button"
+              value="artist"
+              onClick={() => onClick("artist")}
+              className={
+                searchType === "artist" && isActive ? styles.active : ""
+              }
+            >
+              ARTIST
+            </button>
+            <button
+              type="button"
+              value="album"
+              onClick={() => onClick("album")}
+              className={
+                searchType === "album" && isActive ? styles.active : ""
+              }
+            >
+              ALBUM
+            </button>
+          </div>
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="🔍 듣고싶은 곡을 검색하세요"
+            className={styles.search}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </form>
       </div>
       <div className={styles.div3}>
-        <ul className={styles.ul}>
-          {searchResults.map((track) => (
-            <li className={styles.li} key={track.id}>
-              <div className={styles.result}>
-                <img
-                  src={track.album.images[0].url}
-                  alt={track.name}
-                  style={{ width: "5vw", height: "5vw" }}
-                />
-                <p>{track.artists[0].name}</p>
-                <p>{track.name}</p>
-                <p>{track.album.name}</p>
-                <p>{formatDuration(track.duration_ms)}</p>
+        {searchType === "track" && (
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th></th>
+                <th>제목</th>
+                <th></th>
+                <th>아티스트</th>
+                <th>앨범</th>
+                <th>🕛</th>
+              </tr>
+            </thead>
+            <tbody>
+              {searchResults.map((track, index) => (
+                <tr className={styles.row} key={track.id}>
+                  <td>{index + 1}</td>
+                  <td>
+                    {track.album.images && track.album.images.length > 0 && (
+                      <img
+                        src={track.album.images[0].url}
+                        alt={track.name}
+                        style={{ width: "4vw", height: "4vw" }}
+                      />
+                    )}
+                  </td>
+                  <td>{track.name}</td>
+                  <td>{track.artists[0].name}</td>
+                  <td>{track.album.name}</td>
+                  <td>{formatDuration(track.duration_ms)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+
+        {searchType === "artist" && (
+          <div className={styles.artistResults}>
+            {searchResults.map((artist) => (
+              <div className={styles.artistCard} key={artist.id}>
+                {artist.images && artist.images.length > 0 && (
+                  <img
+                    src={artist.images[0].url}
+                    alt={artist.name}
+                    style={{
+                      width: "10vw",
+                      height: "10vw",
+                      borderRadius: "10vw",
+                    }}
+                  />
+                )}
+                <p>{artist.name}</p>
+                <p>artist</p>
               </div>
-            </li>
-          ))}
-        </ul>
+            ))}
+          </div>
+        )}
+
+        {searchType === "album" && (
+          <div className={styles.albumResults}>
+            {searchResults.map((album) => (
+              <div className={styles.albumCard} key={album.id}>
+                {album.images && album.images.length > 0 && (
+                  <img
+                    src={album.images[0].url}
+                    alt={album.name}
+                    style={{
+                      width: "10vw",
+                      height: "10vw",
+                      borderRadius:"10px"
+                    }}
+                  />
+                )}
+                <p>{album.name}</p>
+                <p>{new Date(album.release_date).getFullYear()} {album.artists[0].name}</p>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
