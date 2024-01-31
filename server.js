@@ -34,15 +34,13 @@ app.post('/getSpotifyToken', async (req, res) => {
   }
 });
 
-// Spotify API에서 곡을 검색하는 엔드포인트
-app.get('/searchSpotify', async (req, res) => {
+app.post('/searchSpotify', async (req, res) => {
   try {
-    const { query } = req.query;
+    const { query, type } = req.body; // 클라이언트로부터 검색어와 검색 유형을 받음
 
-    // 클라이언트로부터 받은 검색어를 이용해 Spotify API에 검색 요청
     const tokenResponse = await axios.post(
       'http://localhost:3001/getSpotifyToken',
-      'grant_type=client_credentials',  // 추가된 부분
+      'grant_type=client_credentials',
       {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -53,7 +51,7 @@ app.get('/searchSpotify', async (req, res) => {
     const accessToken = tokenResponse.data.accessToken;
 
     const searchResponse = await axios.get(
-      `https://api.spotify.com/v1/search?q=${query}&type=track`,
+      `https://api.spotify.com/v1/search?q=${query}&type=${type}&sort=popularity`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
