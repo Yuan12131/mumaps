@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "@/app/styles/main.module.scss";
 import Topbar from "@/app/components/Topbar";
+import SpotifyPlayer from "@/app/components/SpotifyPlayer";
+import { RecoilRoot } from 'recoil';
 
 interface DataItem {
   name: string;
@@ -42,6 +44,11 @@ function Index() {
         </div>
       </div>
 
+      <div className={styles.banner6}>
+      <RecoilRoot>
+        <SpotifyPlayer />
+        </RecoilRoot>
+      </div>
       <div className={styles.banner2}>
         <Link href="/search">
           <form className={styles.form}>
