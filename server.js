@@ -4,8 +4,8 @@ const bodyParser = require("body-parser");
 const axios = require("axios");
 const request = require('request');
 const crypto = require('crypto');
-const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -41,7 +41,7 @@ app.prepare().then(() => {
     res.cookie(stateKey, state);
 
     // 사용자에게 요청할 권한(scope)을 정의합니다.
-    const scope = "user-read-private user-read-email";
+    const scope = "user-read-private user-read-email user-read-playback-state user-modify-playback-state streaming";
 
     // 사용자를 Spotify 인증 URL로 보냄
     res.redirect(
@@ -60,9 +60,9 @@ app.prepare().then(() => {
     // your application requests refresh and access tokens
     // after checking the state parameter
 
-    var code = req.query.code || null;
-    var state = req.query.state || null;
-    var storedState = req.cookies ? req.cookies[stateKey] : null;
+    const code = req.query.code || null;
+    const state = req.query.state || null;
+    const storedState = req.cookies ? req.cookies[stateKey] : null;
 
     if (state === null || state !== storedState) {
       res.redirect(
@@ -73,7 +73,7 @@ app.prepare().then(() => {
       );
     } else {
       res.clearCookie(stateKey);
-      var authOptions = {
+      const authOptions = {
         url: "https://accounts.spotify.com/api/token",
         form: {
           code: code,
@@ -91,10 +91,12 @@ app.prepare().then(() => {
 
       request.post(authOptions, function (error, response, body) {
         if (!error && response.statusCode === 200) {
-          var access_token = body.access_token,
+          const access_token = body.access_token,
             refresh_token = body.refresh_token;
 
-          var options = {
+            res.cookie('spotifyToken', access_token, { httpOnly: true });
+
+            const options = {
             url: "https://api.spotify.com/v1/me",
             headers: { Authorization: "Bearer " + access_token },
             json: true,
@@ -102,7 +104,7 @@ app.prepare().then(() => {
 
           // use the access token to access the Spotify Web API
           request.get(options, function (error, response, body) {
-            console.log(body);
+            // console.log(body);
           });
 
           // we can also pass the token to the browser to make requests from there
@@ -125,28 +127,29 @@ app.prepare().then(() => {
     }
   });
 
+
   // 음악 재생 API 엔드포인트 수정
-  server.get("/play-music/:trackId", async (req, res) => {
+  server.post("/play-music", async (req, res) => {
     try {
+      // 쿠키에서 Spotify 토큰 가져오기
+      const spotifyToken = req.cookies.spotifyToken;
+  
       // 사용자가 로그인되어 있는지 확인
-      if (!req.isAuthenticated()) {
+      if (!spotifyToken) {
         return res.status(401).json({ error: "User not authenticated" });
       }
-
-      // 사용자의 Spotify 토큰 가져오기
-      const spotifyToken = req.user.accessToken;
-
-      // 클라이언트에서 전달한 트랙 ID
-      const trackId = req.params.trackId;
-
+  
+      // 클라이언트에서 전달한 트랙 ID 또는 URI
+      const { trackId } = req.body;
+  
       // Spotify Web API 엔드포인트 및 토큰 정보 (실제로는 안전한 방법으로 관리해야 함)
       const spotifyApiEndpoint = "https://api.spotify.com/v1/me/player/play";
-
+  
       // 트랙 재생을 위한 요청 데이터
       const requestData = {
-        uris: [trackId],
+        uris: [`spotify:track:${trackId}`], // 트랙 ID를 Spotify URI 형식으로 변환
       };
-
+  
       // Spotify Web API에 PUT 요청 보내기
       await axios({
         method: "put",
@@ -157,11 +160,25 @@ app.prepare().then(() => {
         },
         data: requestData,
       });
-
+  
       res.json({ success: true, message: "Track is playing!" });
     } catch (error) {
       console.error("Error playing track:", error);
       res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // checkToken 엔드포인트
+  server.get('/checkToken', (req, res) => {
+    // 쿠키에서 토큰 가져오기
+    const spotifyToken = req.cookies.spotifyToken;
+  
+    if (spotifyToken) {
+      // 토큰이 존재하면 클라이언트에 응답으로 보내주기
+      res.json({ accessToken: spotifyToken });
+    } else {
+      // 토큰이 없으면 클라이언트에 에러 응답 보내기
+      res.status(401).json({ error: 'Token not found' });
     }
   });
 
