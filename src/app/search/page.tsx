@@ -1,7 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React, { useState, FormEvent } from "react";
+import React, { useEffect, useState, FormEvent } from "react";
 import styles from "@/app/styles/searchpage.module.scss";
 import Topbar from "@/app/components/Topbar";
 import axios from "axios";
@@ -14,7 +13,7 @@ interface TrackInfo {
   album: Album;
   images: Image[];
   duration_ms: number;
-  release_date:string;
+  release_date: string;
 }
 
 interface Artist {
@@ -39,32 +38,50 @@ const SearchPage = () => {
   const [searchType, setSearchType] = useState<string>("track"); // 초기값은 'track'으로 설정
   const router = useRouter();
   const [isActive, setIsActive] = useState<boolean>(false);
+  const [spotifyToken, setSpotifyToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    const getToken = async () => {
+      try {
+        const clientId = "60e467fba3aa4b0e94cc77ddaa0e5937";
+        const clientSecret = "8a878c6477db49b49105c0fcded3084f";
+
+        const tokenResponse = await axios.post(
+          "https://accounts.spotify.com/api/token",
+          "grant_type=client_credentials",
+          {
+            headers: {
+              Authorization: `Basic ${Buffer.from(
+                `${clientId}:${clientSecret}`
+              ).toString("base64")}`,
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+          }
+        );
+
+        const accessToken = tokenResponse.data.access_token;
+        setSpotifyToken(accessToken);
+      } catch (error) {
+        console.error("Error getting Spotify access token:", error);
+      }
+    };
+
+    // 페이지가 로드될 때 액세스 토큰을 얻도록 호출
+    getToken();
+  }, []);
 
   const searchSpotify = async (query: string, searchType: string) => {
     try {
-      const clientId = "60e467fba3aa4b0e94cc77ddaa0e5937";
-      const clientSecret = "8a878c6477db49b49105c0fcded3084f";
-
-      const tokenResponse = await axios.post(
-        "https://accounts.spotify.com/api/token",
-        "grant_type=client_credentials",
-        {
-          headers: {
-            Authorization: `Basic ${Buffer.from(
-              `${clientId}:${clientSecret}`
-            ).toString("base64")}`,
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        }
-      );
-
-      const accessToken = tokenResponse.data.access_token;
+      if (!spotifyToken) {
+        console.error("No Spotify access token available");
+        return;
+      }
 
       const searchResponse = await axios.get(
         `https://api.spotify.com/v1/search?q=${query}&type=${searchType}`,
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${spotifyToken}`,
           },
         }
       );
@@ -88,6 +105,43 @@ const SearchPage = () => {
     setSearchType(searchType); // 검색 유형 업데이트
     searchSpotify(query, searchType); // Spotify 검색 호출
   };
+
+  const handleTrackPlay = (trackId: string) => {
+    const playTrack = async () => {
+      try {
+        if (!spotifyToken) {
+          console.error("No Spotify access token available");
+          return;
+        }
+
+        // Spotify Web API 엔드포인트 및 토큰 정보 (실제로는 안전한 방법으로 관리해야 함)
+        const spotifyApiEndpoint = 'https://api.spotify.com/v1/me/player/play';
+
+        // 트랙 재생을 위한 요청 데이터
+        const requestData = {
+          uris: [`spotify:track:${trackId}`],
+        };
+
+        // Spotify Web API에 PUT 요청 보내기
+        await axios({
+          method: 'put',
+          url: spotifyApiEndpoint,
+          headers: {
+            Authorization: `Bearer ${spotifyToken}`,
+            'Content-Type': 'application/json',
+          },
+          data: requestData,
+        });
+
+        console.log('Track is playing!');
+      } catch (error) {
+        console.error('Error playing track:', error);
+      }
+    };
+
+    // playTrack 함수 호출
+    playTrack();
+  }
 
   const formatDuration = (durationInMs: number) => {
     const totalSeconds = durationInMs / 1000;
@@ -176,7 +230,7 @@ const SearchPage = () => {
             </thead>
             <tbody>
               {searchResults.map((track, index) => (
-                <tr className={styles.row} key={track.id}>
+                <tr className={styles.row} key={track.id} onClick={() => handleTrackPlay(track.id)}>
                   <td>{index + 1}</td>
                   <td>
                     {track.album.images && track.album.images.length > 0 && (
@@ -230,7 +284,7 @@ const SearchPage = () => {
                     style={{
                       width: "10vw",
                       height: "10vw",
-                      borderRadius:"10px"
+                      borderRadius: "10px",
                     }}
                   />
                 )}
