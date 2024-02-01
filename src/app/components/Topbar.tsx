@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "@/app/styles/topbar.module.scss";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import LoginButton from "./Login";
 import { useRouter } from "next/navigation";
 
 const links = [
