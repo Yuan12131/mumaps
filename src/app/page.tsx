@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "@/app/styles/main.module.scss";
 import Topbar from "@/app/components/Topbar";
-import Search from "@/app/components/Search";
 
 interface DataItem {
   name: string;
@@ -12,20 +11,20 @@ interface DataItem {
   week: number;
   Subs_Index: number;
   imageUrl: string;
-} 
+}
 
 function Index() {
-    const [hasWindow, setHasWindow] = useState(false);
-    useEffect(() => {
-        if (typeof window !== "undefined") {
-            setHasWindow(true);
-        }
-    }, [hasWindow]);
+  const [hasWindow, setHasWindow] = useState(false);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setHasWindow(true);
+    }
+  }, [hasWindow]);
 
   return (
     <div className={styles.container}>
       <div className={styles.banner1}>
-      <Topbar />
+        <Topbar />
         {hasWindow && (
           <video
             className={styles.video}
@@ -38,30 +37,26 @@ function Index() {
         <div className={styles.box1}>
           나만의 취향으로 만드는 <br></br>나만의 플레이리스트<br></br>
           <Link href={`/algorithm`}>
-          <button>지금 바로 시작하기</button>
+            <button>지금 바로 시작하기</button>
           </Link>
         </div>
       </div>
 
       <div className={styles.banner2}>
-      <Link href="/search" >
-    <form className={styles.form}>
-      <input
-        type="text"
-        id="searchInput"
-        placeholder="🔍  지금 검색하러 가기"
-        className={styles.search}
-        />
-        </form>
+        <Link href="/search">
+          <form className={styles.form}>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="🔍  지금 검색하러 가기"
+              className={styles.search}
+            />
+          </form>
         </Link>
-
       </div>
-      <div className={styles.banner3}>
-      </div>
-      <div className={styles.banner4}>
-      </div>
-      <div className={styles.banner5}>
-      </div>
+      <div className={styles.banner3}></div>
+      <div className={styles.banner4}></div>
+      <div className={styles.banner5}></div>
     </div>
   );
 }
