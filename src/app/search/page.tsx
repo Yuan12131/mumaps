@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import React, { useEffect, useState, FormEvent } from "react";
@@ -5,6 +6,7 @@ import styles from "@/app/styles/searchpage.module.scss";
 import Topbar from "@/app/components/Topbar";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import PlaylistTrack from "@/app/components/PlaylistTrack"
 
 interface TrackInfo {
   id: string;
@@ -39,6 +41,7 @@ const SearchPage = () => {
   const router = useRouter();
   const [isActive, setIsActive] = useState<boolean>(false);
   const [spotifyToken, setSpotifyToken] = useState<string | null>(null);
+  const [playlist, setPlaylist] = useState([]);
 
   useEffect(() => {
     const getToken = async () => {
@@ -105,43 +108,6 @@ const SearchPage = () => {
     setSearchType(searchType); // 검색 유형 업데이트
     searchSpotify(query, searchType); // Spotify 검색 호출
   };
-
-  const handleTrackPlay = (trackId: string) => {
-    const playTrack = async () => {
-      try {
-        if (!spotifyToken) {
-          console.error("No Spotify access token available");
-          return;
-        }
-
-        // Spotify Web API 엔드포인트 및 토큰 정보 (실제로는 안전한 방법으로 관리해야 함)
-        const spotifyApiEndpoint = 'https://api.spotify.com/v1/me/player/play';
-
-        // 트랙 재생을 위한 요청 데이터
-        const requestData = {
-          uris: [`spotify:track:${trackId}`],
-        };
-
-        // Spotify Web API에 PUT 요청 보내기
-        await axios({
-          method: 'put',
-          url: spotifyApiEndpoint,
-          headers: {
-            Authorization: `Bearer ${spotifyToken}`,
-            'Content-Type': 'application/json',
-          },
-          data: requestData,
-        });
-
-        console.log('Track is playing!');
-      } catch (error) {
-        console.error('Error playing track:', error);
-      }
-    };
-
-    // playTrack 함수 호출
-    playTrack();
-  }
 
   const formatDuration = (durationInMs: number) => {
     const totalSeconds = durationInMs / 1000;
@@ -230,7 +196,7 @@ const SearchPage = () => {
             </thead>
             <tbody>
               {searchResults.map((track, index) => (
-                <tr className={styles.row} key={track.id} onClick={() => handleTrackPlay(track.id)}>
+                <tr className={styles.row} key={track.id}>
                   <td>{index + 1}</td>
                   <td>
                     {track.album.images && track.album.images.length > 0 && (
@@ -245,6 +211,7 @@ const SearchPage = () => {
                   <td>{track.artists[0].name}</td>
                   <td>{track.album.name}</td>
                   <td>{formatDuration(track.duration_ms)}</td>
+                  <td><PlaylistTrack/></td>
                 </tr>
               ))}
             </tbody>
@@ -289,7 +256,10 @@ const SearchPage = () => {
                   />
                 )}
                 <p>{album.name}</p>
-                <p>{new Date(album.release_date).getFullYear()} {album.artists[0].name}</p>
+                <p>
+                  {new Date(album.release_date).getFullYear()}{" "}
+                  {album.artists[0].name}
+                </p>
               </div>
             ))}
           </div>
