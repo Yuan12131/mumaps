@@ -1,0 +1,82 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.sliderContainer {
+  width: 80vw;
+  height: 60vh;
+  border: 1px solid rgb(57, 57, 57);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-wrap: wrap;
+  overflow: auto;
+  align-items: center;
+}
+
+.slider {
+  width: 30vw;
+  height: 9vh;
+  background-color: rgb(226, 184, 191);
+  border: 1px solid black;
+  border-radius: 30vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 3vw 0 3vw;
+}
+
+.class {
+  border: 1px solid white; /* border 스타일 지정 */
+  color: white;
+  }
+
+.class th, .class td {
+  border: 1px solid white; /* border 스타일 지정 */
+  color: white; /* 글씨 색상 지정 */
+  padding: 8px; /* 셀 안의 내용과 테두리 간격 지정 */
+  text-align: center; /* 텍스트 중앙 정렬 */
+}
+
+.sliderActive .table {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: none; /* 기본적으로 숨김 */
+  border: 1px solid white;
+  color: white;
+}
+
+.sliderActive .table th,
+.sliderActive .table td {
+  border: 1px solid white;
+  color: white;
+}
+
+.sliderActive .slider,
+.sliderActive .sliderContainer,
+.sliderActive .resultBtn{
+  display: none; /* 기본적으로 숨김 */
+}
+
+.resultBtn > button{
+width: 10vw;
+height: 5vh;
+background-color: rgb(61, 61, 61);
+border: 1px solid white;
+color: white;
+border-radius: 10vw;
+margin: 0 5vw 0 5vw;
+cursor: pointer;
+}
+
+.slider > input{
+  accent-color: rgb(62, 62, 62);
+}
