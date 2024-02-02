@@ -86,7 +86,7 @@ const Algorithm = () => {
       const queryParams = `target_valence=${valence}&target_danceability=${danceability}&target_energy=${energy}&target_instrumentalness=${instrumentalness}&target_popularity=${popularity}&target_tempo=${tempo}`;
 
       const { data } = await axios.get(
-        `https://api.spotify.com/v1/recommendations?seed_artists=7tYKF4w9nC0nq9CsPZTHyP&seed_genres=pop%2Cedm%2Ccountry&${queryParams}`,
+        `https://api.spotify.com/v1/recommendations?seed_artists=6RHTUrRF63xao58xh9FXYJ&seed_genres=pop%2Cedm%2Ccountry&${queryParams}`,
         {
           headers: {
             Authorization: `Bearer ${spotifyToken}`,
@@ -218,18 +218,18 @@ const Algorithm = () => {
             showResults ? styles.sliderActive : ""
           }`}
         >
-            <span>느린 템포</span>
-            <input
-              type="range"
-              min="60"
-              max="180"
-              step="5"
-              value={tempo}
-              onChange={(e) => setTempo(parseFloat(e.target.value))}
-            />
-            <span>빠른 템포</span>
-            </div>
-            <div
+          <span>느린 템포</span>
+          <input
+            type="range"
+            min="60"
+            max="180"
+            step="5"
+            value={tempo}
+            onChange={(e) => setTempo(parseFloat(e.target.value))}
+          />
+          <span>빠른 템포</span>
+        </div>
+        <div
           className={`${styles.resultBtn} ${
             showResults ? styles.sliderActive : ""
           }`}
@@ -237,9 +237,35 @@ const Algorithm = () => {
           <button type="button" onClick={onSubmit}>
             결과 보기
           </button>
-          </div>
+        </div>
         {showResults && (
-          <div>
+          <div className={`${styles.resultDiv} ${
+            showResults ? styles.sliderActive : ""
+          }`}>
+            <table
+              className={`${styles.input} ${
+                showResults ? styles.sliderActive : ""
+              }`}
+            >
+              <thead>
+                <tr>
+                  <th>밝음</th>
+                  <th>춤추기 좋은</th>
+                  <th>강렬한</th>
+                  <th>반주</th>
+                  <th>BPM</th>
+                  <th>인기도</th>
+                </tr>
+              </thead>
+              <tbody>
+                <td>{valence}</td>
+                <td>{danceability}</td>
+                <td>{energy}</td>
+                <td>{instrumentalness}</td>
+                <td>{tempo}</td>
+                <td>{popularity}</td>
+              </tbody>
+            </table>
             <table
               className={`${styles.class} ${
                 showResults ? styles.sliderActive : ""
