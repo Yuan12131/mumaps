@@ -8,26 +8,28 @@
   width: 100vw;
   height: 85vh;
   position: relative;
-  display:flex;
+  display: flex;
   flex-direction: column;
 
-  .box1{
-    width:35vw;
+  .box1 {
+    width: 35vw;
     height: 30vh;
     margin-top: 20vh;
     margin-left: 5vw;
     font-size: 2rem;
-    color:white;
+    color: white;
     font-weight: 700;
   }
-  button{
-    width:10vw;
-    height:5vh;
-    border:0;
+
+  button {
+    width: 10vw;
+    height: 5vh;
+    border: 0;
     border-radius: 20px;
     background-color: black;
     color: white;
     margin-left: 2vw;
+
     &:hover {
       background-color: white;
       color: black;
@@ -39,7 +41,7 @@
 
 .video {
   position: absolute;
-  display:flex;
+  display: flex;
   top: 0;
   left: 0;
   width: 100vw;
@@ -50,23 +52,31 @@
 
 .banner2 {
   background-color: #f6f1eb;
-  display:flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   height: 20vh;
+
+  >a {
+    text-decoration: none;
+    color: black;
+  }
 }
 
-.form{
+.form {
   box-sizing: border-box;
-  width: 20vw;
-  height: 7vh;
-  border-radius: 30px;
+  width: 25vw;
+  height: 9vh;
+  border-radius: 10px;
   border: 2px solid #000;
   background: #FAF4F4;
   font-size: 1.2rem;
+  line-height: 9vh;
+  text-align: center;
+
 }
 
-.search{
+.search {
   box-sizing: border-box;
   width: 20vw;
   height: 7vh;
@@ -77,17 +87,36 @@
   text-align: center;
 }
 
-.banner3{
-  height:80vh;
-  background-color: #f3e1cb;
+.banner3 {
+  height: 80vh;
+  background-color: #E9E9E9;
 }
 
-.banner4{
-  height:80vh;
+.banner4 {
+  height: 80vh;
   background-color: #f1d4b2;
 }
 
-.banner5{
-  height:30vh;
-  background-color: #ffbe73;
+.banner5 {
+  height: 30vh;
+  background-color: #000;
+  display: flex;
+  align-items: center;
+}
+
+.name {
+  width: 40vw;
+  height: 15vh;
+  text-align: center;
+  color: white;
+  font-size: 3rem;
+}
+
+.info {
+  width: 40vw;
+  height: 30vh;
+  color: white;
+  padding-top: 3vh;
+  font-size: 0.7rem;
+  padding-left: 20vw;
 }
