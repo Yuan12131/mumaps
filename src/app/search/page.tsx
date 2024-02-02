@@ -188,7 +188,6 @@ const SearchPage = () => {
                 <th>#</th>
                 <th></th>
                 <th>제목</th>
-                <th></th>
                 <th>아티스트</th>
                 <th>앨범</th>
                 <th>🕛</th>
@@ -203,7 +202,7 @@ const SearchPage = () => {
                       <img
                         src={track.album.images[0].url}
                         alt={track.name}
-                        style={{ width: "4vw", height: "4vw" }}
+                        style={{ width: "5vw", height: "5vw", borderRadius:"2px" }}
                       />
                     )}
                   </td>
@@ -211,7 +210,7 @@ const SearchPage = () => {
                   <td>{track.artists[0].name}</td>
                   <td>{track.album.name}</td>
                   <td>{formatDuration(track.duration_ms)}</td>
-                  <td><PlaylistTrack/></td>
+                  {/* <td><PlaylistTrack/></td> */}
                 </tr>
               ))}
             </tbody>
@@ -227,14 +226,14 @@ const SearchPage = () => {
                     src={artist.images[0].url}
                     alt={artist.name}
                     style={{
-                      width: "10vw",
-                      height: "10vw",
-                      borderRadius: "10vw",
+                      width: "11vw",
+                      height: "11vw",
+                      borderRadius: "11vw",
                     }}
                   />
                 )}
-                <p>{artist.name}</p>
-                <p>artist</p>
+                <p className={styles.name}>{artist.name}</p>
+                <p className={styles.artist}>artist</p>
               </div>
             ))}
           </div>
@@ -249,14 +248,14 @@ const SearchPage = () => {
                     src={album.images[0].url}
                     alt={album.name}
                     style={{
-                      width: "10vw",
-                      height: "10vw",
+                      width: "11vw",
+                      height: "11vw",
                       borderRadius: "10px",
                     }}
                   />
                 )}
-                <p>{album.name}</p>
-                <p>
+                <p className={styles.album}>{album.name}</p>
+                <p className={styles.year}>
                   {new Date(album.release_date).getFullYear()}{" "}
                   {album.artists[0].name}
                 </p>
