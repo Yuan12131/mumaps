@@ -10,18 +10,43 @@
 .div2 {
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 20vh;
+  align-items: flex-end;
+  height: 15vh;
 }
 
 .div3 {
-  height: 50vh;
-  width: 80vw;
+  height: 55vh;
+  width: 90vw;
   display: flex;
   flex-direction: column;
   color: white;
   flex-wrap: wrap;
   overflow: auto;
+}
+
+.table {
+  box-sizing: border-box;
+  border: 2px solid rgb(55, 55, 55);
+  padding: 3px;
+  color: white;
+  margin: 3vw;
+  font-size: 13px;
+}
+
+.table th,
+.table td {
+  background-color: rgb(44, 44, 44);
+  color: white;
+  padding: 3px;
+  text-align: center;
+}
+// .table td:nth-child(2){
+//   padding: 0;
+// }
+.table th {
+  background-color: #000000;
+  font-size: 14px;
+font-weight: 500;
 }
 
 .ul {
@@ -89,16 +114,17 @@
 
 .artistResults {
   height: 50vh;
-  width: 80vw;
+  width: 90vw;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   font-size: 0.9rem;
+  margin-top: 5vh;
 }
 
 .artistCard {
   width: 15vw;
-  height: 35vh;
+  height: 34vh;
   background-color: #262626;
   margin-right: 3vw;
   border-radius: 10px;
@@ -106,20 +132,31 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: 3vw;
+  justify-content: center;
+}
+.name{
+  font-size: 1rem;
+  font-weight: 900;
+}
+.artist{
+  font-size: 0.7rem;
+  color: #8e8e8e;
+  margin-top: -0.7vw;
 }
 
 .albumResults {
   height: 50vh;
-  width: 80vw;
+  width: 90vw;
   display: flex;
   flex-wrap: wrap;
-  font-size: 0.8rem;
   justify-content: space-between;
+  font-size: 0.9rem;
+  margin-top: 5vh;
 }
 
 .albumCard {
   width: 15vw;
-  height: 35vh;
+  height: 37vh;
   background-color: #262626;
   margin-right: 3vw;
   border-radius: 10px;
@@ -127,10 +164,20 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: 3vw;
-  >p{
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 100%;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 0.5vw;
 }
+
+.album{
+  font-weight: 900;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+  text-align: center;
+}
+.year{
+  font-size: 0.8rem;
+  color: #8e8e8e;
 }
