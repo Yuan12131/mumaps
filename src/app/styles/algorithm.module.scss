@@ -1,16 +1,17 @@
 .container {
   width: 100vw;
   height: 100vh;
-  background-color: black;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
+  background-color: black;
 }
 
 .sliderContainer {
   width: 80vw;
   height: 60vh;
+  background-color: #ffffff;
   border: 1px solid rgb(57, 57, 57);
   display: flex;
   flex-wrap: wrap;
@@ -18,30 +19,63 @@
   flex-wrap: wrap;
   overflow: auto;
   align-items: center;
+  margin-top: 5vh;
 }
 
 .slider {
   width: 30vw;
   height: 9vh;
-  background-color: rgb(226, 184, 191);
+  background-color: #ffd9d9;
   border: 1px solid black;
   border-radius: 30vw;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 3vw 0 3vw;
+  margin: 0 3vw -5vh 3vw;
 }
 
 .class {
-  border: 1px solid white; /* border 스타일 지정 */
   color: white;
-  }
+  margin: 3vw;
+  font-size: 13px;
+  width: 90%;
+}
 
-.class th, .class td {
-  border: 1px solid white; /* border 스타일 지정 */
-  color: white; /* 글씨 색상 지정 */
-  padding: 8px; /* 셀 안의 내용과 테두리 간격 지정 */
-  text-align: center; /* 텍스트 중앙 정렬 */
+.class th,
+.class td {
+  background-color: rgb(44, 44, 44);
+  border: 1px solid white;
+  color: white;
+  padding: 8px;
+  text-align: center;
+}
+
+.class th {
+  background-color: #000000;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.input {
+  width: 90%;
+  margin-top: 5vh;
+
+
+}
+
+.input th {
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.input th,
+.input td {
+  color: rgb(255, 255, 255);
+  font-size: 13px;
+  padding: 8px;
+  text-align: center;
+  background-color: rgb(44, 44, 44);
+  border: 1px solid white;
 }
 
 .sliderActive .table {
@@ -49,34 +83,39 @@
   top: 0;
   left: 0;
   z-index: 1;
-  display: none; /* 기본적으로 숨김 */
-  border: 1px solid white;
+  display: none;
   color: white;
 }
 
 .sliderActive .table th,
 .sliderActive .table td {
-  border: 1px solid white;
   color: white;
 }
 
 .sliderActive .slider,
 .sliderActive .sliderContainer,
-.sliderActive .resultBtn{
-  display: none; /* 기본적으로 숨김 */
+.sliderActive .resultBtn {
+  display: none;
 }
 
-.resultBtn > button{
-width: 10vw;
-height: 5vh;
-background-color: rgb(61, 61, 61);
-border: 1px solid white;
-color: white;
-border-radius: 10vw;
-margin: 0 5vw 0 5vw;
-cursor: pointer;
+.resultBtn>button {
+  width: 10vw;
+  height: 5vh;
+  background-color: rgb(61, 61, 61);
+  border: 1px solid white;
+  color: white;
+  border-radius: 10vw;
+  margin: 0 5vw 0 5vw;
+  cursor: pointer;
 }
 
-.slider > input{
+.slider>input {
   accent-color: rgb(62, 62, 62);
+}
+
+.resultDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
