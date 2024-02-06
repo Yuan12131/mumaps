@@ -11,7 +11,7 @@ const links = [
 ];
 
 function Topbar() {
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
     async function getToken() {
@@ -33,6 +33,24 @@ function Topbar() {
     getToken();
   }, []);
 
+  const handleLogout = async () => {
+    try {
+      // 서버의 /logout 엔드포인트로 로그아웃 요청 보내기
+      const response = await fetch("/logout");
+  
+      if (response.ok) {
+        // 로그아웃 성공 시 클라이언트 상태 업데이트
+        setToken(null);
+  
+        window.location.href = "/";
+      } else {
+        console.error("Logout failed");
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
+
   return (
     <div className={styles.topbar}>
       <div className={styles.div1}>
@@ -48,11 +66,11 @@ function Topbar() {
       </div>
 
       <div className={styles.div3}>
-        {token === "" ? (
+      {token == null ? (
           <Link href="/login">login</Link>
         ) : (
           <>
-            <button className={styles.link}>LOGOUT</button>
+            <button className={styles.link} onClick={handleLogout}>LOGOUT</button>
           </>
         )}
       </div>
