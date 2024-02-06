@@ -1,0 +1,67 @@
+.player{
+  box-sizing: border-box;
+  width: 100vw;
+  height: 15vh;
+  background-color: rgba(0, 0, 0, 0.487);
+  position: fixed;
+}
+
+.container{
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100px;
+  padding: 0 20px;
+  z-index: 100;
+  background-color: black;
+}
+
+.trackWrapper{
+  display: flex;
+  align-items: center;
+  width: 30%;
+}
+.trackWrapperDiv{
+
+  width: 64px;
+  height: 64px;
+  background-color: #333;
+}
+
+.trackName{
+  margin-bottom: 4px;
+      font-size: 14px;
+}
+
+.trackArtist{
+  margin-bottom: 4px;
+      font-size: 14px;
+}
+
+.control{
+  display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40%;
+}
+
+.playback{
+  display: flex;
+    gap: 20px;
+    margin-bottom: 10px;
+    * {
+      cursor: pointer;
+    }
+}
+
+.option{
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+}
