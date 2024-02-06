@@ -3,6 +3,11 @@ import ProgressBar from "./ProgressBar";
 import VolumeBar from "./VolumeBar";
 import styles from "@/app/styles/player.module.scss";
 
+interface WebPlaybackProps {
+  trackId: string;
+  token: string;
+}
+
 const track = {
   name: "",
   album: {
@@ -11,16 +16,17 @@ const track = {
   artists: [{ name: "" }],
 };
 
-function WebPlayback(props: { token: string }) {
+function WebPlayback(props: { token: string; trackId: string }) {
   const [player, setPlayer] = useState<Spotify.Player | null>(null);
   const [is_paused, setPaused] = useState(false);
-  const [is_active, setActive] = useState(false);
   const [current_track, setTrack] = useState(track);
   const [duration, setDuration] = useState(1);
   const [position, setPosition] = useState(0);
   const [volume, setVolume] = useState(0);
-
+  
   useEffect(() => {
+    let previousDeviceId: string | null = null;
+
     const script = document.createElement("script");
     script.src = "https://sdk.scdn.co/spotify-player.js";
     script.async = true;
@@ -39,26 +45,54 @@ function WebPlayback(props: { token: string }) {
       setPlayer(player);
 
       player.addListener("ready", async ({ device_id }) => {
-        const trackId = "6VCO0fDBGbRW8mCEvV95af"; // Replace with the actual Spotify track ID
-        const response = await fetch(
-          `https://api.spotify.com/v1/me/player/play`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${props.token}`,
-            },
-            body: JSON.stringify({
-              uris: [`spotify:track:${trackId}`],
-            }),
-          }
-        );
+        const trackId = props.trackId;
 
-        if (response.ok) {
-          console.log("Track played successfully");
+        // Check if there's a previous device ID
+        if (previousDeviceId) {
+          const response = await fetch(
+            `https://api.spotify.com/v1/me/player/play`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${props.token}`,
+              },
+              body: JSON.stringify({
+                uris: [`spotify:track:${trackId}`],
+                device_id: previousDeviceId,
+              }),
+            }
+          );
+
+          if (response.ok) {
+            console.log("Track played successfully");
+          } else {
+            console.error("Failed to play track", response.statusText);
+          }
         } else {
-          console.error("Failed to play track", response.statusText);
+          // If no previous device ID, play on the current device
+          const response = await fetch(
+            `https://api.spotify.com/v1/me/player/play`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${props.token}`,
+              },
+              body: JSON.stringify({
+                uris: [`spotify:track:${trackId}`],
+              }),
+            }
+          );
+
+          if (response.ok) {
+            console.log("Track played successfully");
+          } else {
+            console.error("Failed to play track", response.statusText);
+          }
         }
+
+        previousDeviceId = device_id; // Update previous device ID
         console.log("Ready with Device ID", device_id);
       });
 
@@ -70,7 +104,6 @@ function WebPlayback(props: { token: string }) {
         if (!state) {
           return;
         }
-        console.log(state);
         setTrack(state.track_window.current_track);
         setPaused(state.paused);
         setPosition(state.position);
@@ -84,6 +117,7 @@ function WebPlayback(props: { token: string }) {
           );
         }
       });
+
       player.addListener("initialization_error", ({ message }) => {
         console.log(message);
       });
@@ -96,7 +130,7 @@ function WebPlayback(props: { token: string }) {
         console.log(message);
       });
     };
-  }, [props.token]);
+  }, [props.token, props.trackId]);
 
   return (
     <div className={styles.container}>
@@ -123,7 +157,7 @@ function WebPlayback(props: { token: string }) {
       )}
       <div className={styles.control}>
         <div className={styles.playback}>
-          {/* <img
+          <img
             src="/images/prev_song_arrow.svg"
             alt="previous"
             width={36}
@@ -132,14 +166,24 @@ function WebPlayback(props: { token: string }) {
               player?.previousTrack();
               setPosition(0);
             }}
-          /> */}
-          {/* <img
+          />
+          <img
             src={`/images/${is_paused ? "play" : "pause"}_circle.svg`}
             alt={is_paused ? "play" : "pause"}
             width={36}
             height={36}
             onClick={() => player?.togglePlay()}
-          /> */}
+          />
+                    <img
+            src="/images/next_song_arrow.svg"
+            alt="previous"
+            width={36}
+            height={36}
+            onClick={() => {
+              player?.nextTrack();
+              setPosition(0);
+            }}
+          />
           <button
             className="btn-spotify"
             onClick={() => {
@@ -148,16 +192,6 @@ function WebPlayback(props: { token: string }) {
           >
             {is_paused ? "PLAY" : "PAUSE"}
           </button>
-          {/* <img
-            src="/images/next_song_arrow.svg"
-            alt="next"
-            width={36}
-            height={36}
-            onClick={() => {
-              player?.nextTrack();
-              setPosition(0);
-            }}
-          /> */}
         </div>
         <ProgressBar
           is_paused={is_paused}
@@ -171,13 +205,13 @@ function WebPlayback(props: { token: string }) {
         />
       </div>
       <div className={styles.option}>
-        {/* <VolumeBar
+        <VolumeBar
           volume={volume}
           onSeek={() => {
             player?.setVolume(volume);
             setVolume(volume);
           }}
-        /> */}
+        />
       </div>
     </div>
   );
