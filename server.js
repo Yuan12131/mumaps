@@ -159,6 +159,17 @@ app.prepare().then(() => {
     });
   });
 
+  server.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+      if (err) {
+        console.error('Error destroying session:', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        res.status(200).send('Logout successful');
+      }
+    });
+  });
+
   server.get("*", (req, res) => {
     return handle(req, res);
   });
