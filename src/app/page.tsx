@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "@/app/styles/main.module.scss";
 import Topbar from "@/app/components/Topbar";
-import WebPlayback from "@/app/components/Webplayback";
 
 interface DataItem {
   name: string;
@@ -65,7 +64,6 @@ function Index() {
       </div>
 
       <div className={styles.banner6}>
-        <WebPlayback token={token} />
       </div>
       <div className={styles.banner2}>
         <Link href="/search">
