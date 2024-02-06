@@ -4,8 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "@/app/styles/main.module.scss";
 import Topbar from "@/app/components/Topbar";
-import SpotifyPlayer from "@/app/components/SpotifyPlayer";
-import { RecoilRoot } from "recoil";
+import WebPlayback from "@/app/components/Webplayback";
 
 interface DataItem {
   name: string;
@@ -16,12 +15,33 @@ interface DataItem {
 }
 
 function Index() {
+  const [token, setToken] = useState("");
   const [hasWindow, setHasWindow] = useState(false);
   useEffect(() => {
     if (typeof window !== "undefined") {
       setHasWindow(true);
     }
   }, [hasWindow]);
+
+  useEffect(() => {
+    async function getToken() {
+      try {
+        const response = await fetch("/auth/token");
+        const json = await response.json();
+
+        if (json.access_token) {
+          // 토큰이 존재할 경우에만 상태를 업데이트합니다.
+          setToken(json.access_token);
+        } else {
+          console.error("토큰이 비어 있습니다.");
+        }
+      } catch (error) {
+        console.error("토큰을 가져오는 도중 오류가 발생했습니다.", error);
+      }
+    }
+
+    getToken();
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -45,9 +65,7 @@ function Index() {
       </div>
 
       <div className={styles.banner6}>
-        {/* <RecoilRoot>
-        <SpotifyPlayer />
-        </RecoilRoot> */}
+        <WebPlayback token={token} />
       </div>
       <div className={styles.banner2}>
         <Link href="/search">
@@ -59,7 +77,7 @@ function Index() {
           <img
             src="/images/Group 1.svg"
             alt="fd"
-            style={{ width: "80vw", height: "80vh", marginLeft:"10vw" }}
+            style={{ width: "80vw", height: "80vh", marginLeft: "10vw" }}
           />
         </Link>
       </div>
