@@ -6,7 +6,7 @@ import styles from "@/app/styles/searchpage.module.scss";
 import Topbar from "@/app/components/Topbar";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import PlaylistTrack from "@/app/components/PlaylistTrack"
+import WebPlayback from "../components/Webplayback";
 
 interface TrackInfo {
   id: string;
@@ -40,42 +40,33 @@ const SearchPage = () => {
   const [searchType, setSearchType] = useState<string>("track"); // 초기값은 'track'으로 설정
   const router = useRouter();
   const [isActive, setIsActive] = useState<boolean>(false);
-  const [spotifyToken, setSpotifyToken] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [playlist, setPlaylist] = useState([]);
+  const [selectedTrack, setSelectedTrack] = useState<TrackInfo | null>(null);
 
   useEffect(() => {
-    const getToken = async () => {
+    async function getToken() {
       try {
-        const clientId = "60e467fba3aa4b0e94cc77ddaa0e5937";
-        const clientSecret = "8a878c6477db49b49105c0fcded3084f";
+        const response = await fetch("/auth/token");
+        const json = await response.json();
 
-        const tokenResponse = await axios.post(
-          "https://accounts.spotify.com/api/token",
-          "grant_type=client_credentials",
-          {
-            headers: {
-              Authorization: `Basic ${Buffer.from(
-                `${clientId}:${clientSecret}`
-              ).toString("base64")}`,
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
-          }
-        );
-
-        const accessToken = tokenResponse.data.access_token;
-        setSpotifyToken(accessToken);
+        if (json.access_token) {
+          // 토큰이 존재할 경우에만 상태를 업데이트합니다.
+          setToken(json.access_token);
+        } else {
+          console.error("토큰이 비어 있습니다.");
+        }
       } catch (error) {
-        console.error("Error getting Spotify access token:", error);
+        console.error("토큰을 가져오는 도중 오류가 발생했습니다.", error);
       }
-    };
+    }
 
-    // 페이지가 로드될 때 액세스 토큰을 얻도록 호출
     getToken();
   }, []);
 
   const searchSpotify = async (query: string, searchType: string) => {
     try {
-      if (!spotifyToken) {
+      if (!token) {
         console.error("No Spotify access token available");
         return;
       }
@@ -84,7 +75,7 @@ const SearchPage = () => {
         `https://api.spotify.com/v1/search?q=${query}&type=${searchType}`,
         {
           headers: {
-            Authorization: `Bearer ${spotifyToken}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -97,7 +88,6 @@ const SearchPage = () => {
       }
 
       setSearchResults(items);
-      router.push("/search");
     } catch (error) {
       console.error("Error searching Spotify:", error);
     }
@@ -129,6 +119,11 @@ const SearchPage = () => {
     setSearchType(selectedType);
     setIsActive(true); // 버튼 활성화 상태 변경
     setSearchResults([]);
+  };
+
+  const handleTrackClick = (track: TrackInfo) => {
+    // 클릭한 트랙의 ID를 상태에 설정
+    setSelectedTrack(track);
   };
 
   return (
@@ -191,18 +186,27 @@ const SearchPage = () => {
                 <th>아티스트</th>
                 <th>앨범</th>
                 <th>🕛</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
               {searchResults.map((track, index) => (
-                <tr className={styles.row} key={track.id}>
+                <tr
+                  className={styles.row}
+                  key={track.id}
+                  onClick={() => handleTrackClick(track)}
+                >
                   <td>{index + 1}</td>
                   <td>
                     {track.album.images && track.album.images.length > 0 && (
                       <img
                         src={track.album.images[0].url}
                         alt={track.name}
-                        style={{ width: "5vw", height: "5vw", borderRadius:"2px" }}
+                        style={{
+                          width: "5vw",
+                          height: "5vw",
+                          borderRadius: "2px",
+                        }}
                       />
                     )}
                   </td>
@@ -210,7 +214,18 @@ const SearchPage = () => {
                   <td>{track.artists[0].name}</td>
                   <td>{track.album.name}</td>
                   <td>{formatDuration(track.duration_ms)}</td>
-                  {/* <td><PlaylistTrack/></td> */}
+                  <td><img
+                        src="/images/play_circle.svg"
+                        alt={track.name}
+                        
+                        style={{
+                          width: "5vw",
+                          height: "5vw",
+                          borderRadius: "2px",
+                          cursor:"pointer"
+                          
+                        }}
+                      /></td>
                 </tr>
               ))}
             </tbody>
@@ -264,6 +279,9 @@ const SearchPage = () => {
           </div>
         )}
       </div>
+      {searchType === "track" && selectedTrack && (
+        <WebPlayback trackId={selectedTrack.id} token={token} />
+      )}
     </div>
   );
 };
