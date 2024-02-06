@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "@/app/styles/topbar.module.scss";
-import WebPlayback from "./Webplayback";
 
 const links = [
   { name: "SEARCH", href: "/search" },
@@ -54,7 +53,6 @@ function Topbar() {
         ) : (
           <>
             <button className={styles.link}>LOGOUT</button>
-            <WebPlayback token={token} />
           </>
         )}
       </div>
