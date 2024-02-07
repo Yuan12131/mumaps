@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable @next/next/no-img-element */
+"use client";
+
+import React, { useState, useEffect, useRef } from "react";
 import ProgressBar from "./ProgressBar";
 import VolumeBar from "./VolumeBar";
 import styles from "@/app/styles/player.module.scss";
-
-interface WebPlaybackProps {
-  trackId: string;
-  token: string;
-}
+import { useRouter } from "next/navigation";
 
 const track = {
   name: "",
@@ -16,24 +15,23 @@ const track = {
   artists: [{ name: "" }],
 };
 
-function WebPlayback(props: { token: string; trackId: string }) {
+function WebPlayback(props: { token: string | null; trackId: string }) {
   const [player, setPlayer] = useState<Spotify.Player | null>(null);
   const [is_paused, setPaused] = useState(false);
   const [current_track, setTrack] = useState(track);
   const [duration, setDuration] = useState(1);
   const [position, setPosition] = useState(0);
   const [volume, setVolume] = useState(0);
-  
-  useEffect(() => {
-    let previousDeviceId: string | null = null;
+  const previousDeviceIdRef = useRef<string | null>(null);
 
+  useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://sdk.scdn.co/spotify-player.js";
     script.async = true;
 
     document.body.appendChild(script);
 
-    window.onSpotifyWebPlaybackSDKReady = () => {
+    window.onSpotifyWebPlaybackSDKReady = async () => {
       const player = new window.Spotify.Player({
         name: "Web Playback SDK",
         getOAuthToken: (cb) => {
@@ -41,63 +39,38 @@ function WebPlayback(props: { token: string; trackId: string }) {
         },
         volume: 0.5,
       });
-
+    
       setPlayer(player);
 
       player.addListener("ready", async ({ device_id }) => {
+        // 이전 트랙이 있다면 정리
+        player.removeListener("ready");
+
+        // 새로운 트랙을 재생
         const trackId = props.trackId;
-
-        // Check if there's a previous device ID
-        if (previousDeviceId) {
-          const response = await fetch(
-            `https://api.spotify.com/v1/me/player/play`,
-            {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${props.token}`,
-              },
-              body: JSON.stringify({
-                uris: [`spotify:track:${trackId}`],
-                device_id: previousDeviceId,
-              }),
-            }
-          );
-
-          if (response.ok) {
-            console.log("Track played successfully");
-          } else {
-            console.error("Failed to play track", response.statusText);
+        const response = await fetch(
+          `https://api.spotify.com/v1/me/player/play`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${props.token}`,
+            },
+            body: JSON.stringify({
+              uris: [`spotify:track:${trackId}`],
+              device_id: device_id,
+            }),
           }
+        );
+
+        if (response.ok) {
+          console.log("Track played successfully");
         } else {
-          // If no previous device ID, play on the current device
-          const response = await fetch(
-            `https://api.spotify.com/v1/me/player/play`,
-            {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${props.token}`,
-              },
-              body: JSON.stringify({
-                uris: [`spotify:track:${trackId}`],
-              }),
-            }
-          );
-
-          if (response.ok) {
-            console.log("Track played successfully");
-          } else {
-            console.error("Failed to play track", response.statusText);
-          }
+          console.error("Failed to play track", response.statusText);
         }
 
-        previousDeviceId = device_id; // Update previous device ID
-        console.log("Ready with Device ID", device_id);
-      });
-
-      player.addListener("not_ready", ({ device_id }) => {
-        console.log("Device ID has gone offline", device_id);
+        // 디바이스 아이디 저장
+        previousDeviceIdRef.current = device_id;
       });
 
       player.addListener("player_state_changed", (state) => {
@@ -118,18 +91,13 @@ function WebPlayback(props: { token: string; trackId: string }) {
         }
       });
 
-      player.addListener("initialization_error", ({ message }) => {
-        console.log(message);
-      });
-
       player.addListener("authentication_error", ({ message }) => {
         console.log(message);
-      });
-
-      player.addListener("account_error", ({ message }) => {
-        console.log(message);
+        alert("스포티파이 로그인 후 재생 할 수 있습니다.");
       });
     };
+
+    previousDeviceIdRef.current = null;
   }, [props.token, props.trackId]);
 
   return (
@@ -174,7 +142,7 @@ function WebPlayback(props: { token: string; trackId: string }) {
             height={36}
             onClick={() => player?.togglePlay()}
           />
-                    <img
+          <img
             src="/images/next_song_arrow.svg"
             alt="previous"
             width={36}
