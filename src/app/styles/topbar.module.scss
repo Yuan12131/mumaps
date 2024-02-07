@@ -17,6 +17,7 @@
   }
 }
 
+
 .linkname{
   margin-right:2vw;
   text-decoration: none;
@@ -47,11 +48,24 @@
     text-decoration: none;
     background-color: rgba(0, 0, 0, 0.532);
     border-radius: 5px;
-    width: 70px;
-    height: 25px;
+    width: 80px;
+    height: 35px;
     text-align: center;
     margin: 5px;
-    line-height: 25px;
-    font-size: 13px;
+    line-height: 35px;
+    font-size: 14px;
   }
+}
+
+.login{
+  color: white;
+  text-decoration: none;
+  background-color: rgba(0, 0, 0, 0.532);
+  border-radius: 5px;
+  width: 80px;
+  height: 35px;
+  text-align: center;
+  margin: 5px;
+  line-height: 35px;
+  font-size: 13px;
 }

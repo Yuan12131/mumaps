@@ -67,7 +67,7 @@ function Topbar() {
 
       <div className={styles.div3}>
       {token == null ? (
-          <Link href="/login">login</Link>
+          <Link href="/login">LOGIN</Link>
         ) : (
           <>
             <button className={styles.link} onClick={handleLogout}>LOGOUT</button>
