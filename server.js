@@ -1,4 +1,5 @@
 const express = require("express");
+const axios = require('axios'); 
 const next = require("next");
 const request = require("request");
 const crypto = require("crypto");
@@ -10,6 +11,7 @@ const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
 const port = process.env.PORT || 3000;
+
 
 app.prepare().then(() => {
   const server = express();
@@ -41,7 +43,7 @@ app.prepare().then(() => {
     res.cookie(stateKey, state);
 
     const scope =
-      "user-read-private user-read-email user-read-playback-state user-modify-playback-state streaming";
+      "user-read-private user-read-email user-read-playback-state user-modify-playback-state streaming app-remote-control user-read-currently-playing";
     res.redirect(
       "https://accounts.spotify.com/authorize?" +
         querystring.stringify({
@@ -169,6 +171,29 @@ app.prepare().then(() => {
       }
     });
   });
+
+  // 클라이언트에서 검색 토큰 요청 시 처리
+server.get('/auth/searchToken', async (req, res) => {
+  try {
+    const authResponse = await axios.post('https://accounts.spotify.com/api/token', null, {
+      params: {
+        grant_type: 'client_credentials',
+      },
+      auth: {
+        username: client_id,
+        password: client_secret,
+      },
+    });
+
+    const searchToken = authResponse.data.access_token;
+
+    // 검색 토큰을 클라이언트에 응답
+    res.json({ access_token: searchToken });
+  } catch (error) {
+    console.error('Error generating search token:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
   server.get("*", (req, res) => {
     return handle(req, res);
