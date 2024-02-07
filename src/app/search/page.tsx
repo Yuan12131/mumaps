@@ -44,38 +44,50 @@ const SearchPage = () => {
   const [playlist, setPlaylist] = useState([]);
   const [selectedTrack, setSelectedTrack] = useState<TrackInfo | null>(null);
 
+  // 검색을 위한 별도의 토큰 상태
+  const [searchToken, setSearchToken] = useState<string | null>(null);
+
   useEffect(() => {
-    async function getToken() {
+    async function getTokens() {
       try {
         const response = await fetch("/auth/token");
         const json = await response.json();
 
         if (json.access_token) {
-          // 토큰이 존재할 경우에만 상태를 업데이트합니다.
           setToken(json.access_token);
         } else {
           console.error("토큰이 비어 있습니다.");
+        }
+
+        // 검색을 위한 토큰 설정
+        const searchResponse = await fetch("/auth/searchToken");
+        const searchJson = await searchResponse.json();
+
+        if (searchJson.access_token) {
+          setSearchToken(searchJson.access_token);
+        } else {
+          console.error("검색 토큰이 비어 있습니다.");
         }
       } catch (error) {
         console.error("토큰을 가져오는 도중 오류가 발생했습니다.", error);
       }
     }
 
-    getToken();
+    getTokens();
   }, []);
 
   const searchSpotify = async (query: string, searchType: string) => {
     try {
-      if (!token) {
-        console.error("No Spotify access token available");
+      if (!searchToken) {
+        console.error("No Spotify search token available");
         return;
       }
 
       const searchResponse = await axios.get(
-        `https://api.spotify.com/v1/search?q=${query}&type=${searchType}`,
+        `https://api.spotify.com/v1/search?q=${query}&type=${searchType}&limit=10`,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${searchToken}`,
           },
         }
       );
@@ -122,6 +134,11 @@ const SearchPage = () => {
   };
 
   const handleTrackClick = (track: TrackInfo) => {
+    // 클릭한 트랙이 이미 선택한 트랙과 동일하면 아무 작업도 수행하지 않음
+    if (selectedTrack && selectedTrack.id === track.id) {
+      return;
+    }
+  
     // 클릭한 트랙의 ID를 상태에 설정
     setSelectedTrack(track);
   };
@@ -191,11 +208,7 @@ const SearchPage = () => {
             </thead>
             <tbody>
               {searchResults.map((track, index) => (
-                <tr
-                  className={styles.row}
-                  key={track.id}
-                  onClick={() => handleTrackClick(track)}
-                >
+                <tr className={styles.row} key={track.id}>
                   <td>{index + 1}</td>
                   <td>
                     {track.album.images && track.album.images.length > 0 && (
@@ -214,18 +227,19 @@ const SearchPage = () => {
                   <td>{track.artists[0].name}</td>
                   <td>{track.album.name}</td>
                   <td>{formatDuration(track.duration_ms)}</td>
-                  <td><img
-                        src="/images/play_circle.svg"
-                        alt={track.name}
-                        
-                        style={{
-                          width: "5vw",
-                          height: "5vw",
-                          borderRadius: "2px",
-                          cursor:"pointer"
-                          
-                        }}
-                      /></td>
+                  <td>
+                    <img
+                      src="/images/play_circle.svg"
+                      alt={track.name}
+                      style={{
+                        width: "5vw",
+                        height: "5vw",
+                        borderRadius: "2px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => handleTrackClick(track)}
+                    />
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -279,9 +293,9 @@ const SearchPage = () => {
           </div>
         )}
       </div>
-      {searchType === "track" && selectedTrack && (
-        <WebPlayback trackId={selectedTrack.id} token={token} />
-      )}
+      {searchType === "track" && selectedTrack && selectedTrack.id && (
+  <WebPlayback trackId={selectedTrack.id} token={token} />
+)}
     </div>
   );
 };
