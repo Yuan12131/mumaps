@@ -232,8 +232,8 @@ const SearchPage = () => {
                       src="/images/play_circle.svg"
                       alt={track.name}
                       style={{
-                        width: "5vw",
-                        height: "5vw",
+                        width: "3vw",
+                        height: "3vw",
                         borderRadius: "2px",
                         cursor: "pointer",
                       }}
