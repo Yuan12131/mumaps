@@ -42,7 +42,6 @@ function Topbar() {
         // 로그아웃 성공 시 클라이언트 상태 업데이트
         setToken(null);
   
-        window.location.href = "/";
       } else {
         console.error("Logout failed");
       }
@@ -67,10 +66,14 @@ function Topbar() {
 
       <div className={styles.div3}>
       {token == null ? (
-          <Link href="/login">LOGIN</Link>
+          <Link href="/login">
+        <div className={styles.login}>
+            LOGIN
+        </div>
+          </Link>
         ) : (
           <>
-            <button className={styles.link} onClick={handleLogout}>LOGOUT</button>
+            <button className={styles.login} onClick={handleLogout}>LOGOUT</button>
           </>
         )}
       </div>
