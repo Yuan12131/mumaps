@@ -15,13 +15,15 @@
 }
 
 .div3 {
-  height: 55vh;
+  box-sizing: border-box;
+  height: 58vh;
   width: 90vw;
   display: flex;
   flex-direction: column;
   color: white;
   flex-wrap: wrap;
   overflow: auto;
+  margin-top: 1vw;
 }
 
 .table {
@@ -29,7 +31,6 @@
   border: 2px solid rgb(55, 55, 55);
   padding: 3px;
   color: white;
-  margin: 3vw;
   font-size: 13px;
 }
 
