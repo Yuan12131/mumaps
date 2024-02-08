@@ -6,8 +6,7 @@ import styles from "@/app/styles/topbar.module.scss";
 
 const links = [
   { name: "SEARCH", href: "/search" },
-  { name: "PLAYLIST", href: "/algorithm" },
-  { name: "MAP", href: "/map" },
+  { name: "RECOMMAND", href: "/algorithm" },
 ];
 
 function Topbar() {
@@ -61,7 +60,7 @@ function Topbar() {
       </div>
 
       <div className={styles.div2}>
-        <Link href="/">MUMAPS</Link>
+        <Link href="/">MUMUS</Link>
       </div>
 
       <div className={styles.div3}>
