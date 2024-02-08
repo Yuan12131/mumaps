@@ -21,7 +21,7 @@ function Index() {
       setHasWindow(true);
     }
   }, [hasWindow]);
-  
+
   return (
     <div className={styles.container}>
       <div className={styles.banner1}>
@@ -36,40 +36,66 @@ function Index() {
           />
         )}
         <div className={styles.box1}>
-          나만의 취향으로 만드는 <br></br>나만의 플레이리스트<br></br>
-          <Link href={`/algorithm`}>
-            <button className={styles.try}>지금 바로 시작하기</button>
+          나만의 취향으로 만드는 <br></br>나만의 플레이어<br></br>
+          <Link href={`/search`}>
+            <button className={styles.try}>T R Y </button>
           </Link>
         </div>
       </div>
 
-      <div className={styles.banner6}>
-      </div>
+      <div className={styles.banner6}></div>
       <div className={styles.banner2}>
         <Link href="/search">
           <div className={styles.form}>🔍 지금 바로 Spotify에 검색하기</div>
         </Link>
       </div>
       <div className={styles.banner3}>
+        <h2>세분화된 음악 특징을 기반으로 한 맞춤형 음악 추천을 즐겨보세요</h2>
+        <div className={styles.sliderContainer}>
+          <div className={styles.slider}>
+            <span>NEGATIVE</span>
+            <input type="range" min="0" max="1" step="0.1" />
+            <span>POSITIVE</span>
+          </div>
+          <div className={styles.slider}>
+            <span>SOFT</span>
+            <input type="range" min="0" max="1" step="0.1" />
+            <span>POWERFUL</span>
+          </div>
+        </div>
+        <div  className={styles.sliderContainer}>
+          <div className={styles.slider}>
+            <span>STATIC</span>
+            <input type="range" min="0" max="1" step="0.1" />
+            <span>DYNAMIC</span>
+          </div>
+          <div className={styles.slider}>
+            <span>MUSICAL</span>
+            <input type="range" min="0" max="1" step="0.1" />
+            <span>INSTRUMENTAL</span>
+          </div>
+        </div>
+        <div  className={styles.sliderContainer}>
+          <div className={styles.slider}>
+            <span>UNPOPULAR</span>
+            <input type="range" min="0" max="100" step="1" />
+            <span>POPULAR</span>
+          </div>
+          <div className={styles.slider}>
+            <span>SLOW</span>
+            <input type="range" min="60" max="180" step="5" />
+            <span>FAST</span>
+          </div>
+        </div>
+
         <Link href="/algorithm">
-          <img
-            src="/images/Group 1.svg"
-            alt="fd"
-            style={{ width: "80vw", height: "80vh", marginLeft: "10vw" }}
-          />
-        </Link>
-      </div>
-      <div className={styles.banner4}>
-        <Link href="/map">
-          <img
-            src="/images/map.jpg"
-            alt="fd"
-            style={{ width: "100vw", height: "80vh" }}
-          />
+          <button className={styles.go} type="button">
+          T R Y
+          </button>
         </Link>
       </div>
       <div className={styles.banner5}>
-        <div className={styles.name}>MUMAPS</div>
+        <div className={styles.name}>MUMUS</div>
         <div className={styles.info}>
           <p>이용약관 l 개인정보처리방침</p>
           <p>CEO : 그린</p>
