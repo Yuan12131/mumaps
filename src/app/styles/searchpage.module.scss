@@ -24,6 +24,8 @@
   flex-wrap: wrap;
   overflow: auto;
   margin-top: 1vw;
+  border-radius: 10px;
+
 }
 
 .table {
@@ -32,6 +34,7 @@
   padding: 3px;
   color: white;
   font-size: 13px;
+  border-radius: 10px;
 }
 
 .table th,
@@ -40,14 +43,14 @@
   color: white;
   padding: 3px;
   text-align: center;
+  border-radius: 3px;
+
 }
-// .table td:nth-child(2){
-//   padding: 0;
-// }
+
 .table th {
   background-color: #000000;
   font-size: 14px;
-font-weight: 500;
+  font-weight: 500;
 }
 
 .ul {
@@ -135,11 +138,13 @@ font-weight: 500;
   margin-bottom: 3vw;
   justify-content: center;
 }
-.name{
+
+.name {
   font-size: 1rem;
   font-weight: 900;
 }
-.artist{
+
+.artist {
   font-size: 0.7rem;
   color: #8e8e8e;
   margin-top: -0.7vw;
@@ -170,7 +175,7 @@ font-weight: 500;
   padding: 0.5vw;
 }
 
-.album{
+.album {
   font-weight: 900;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -178,7 +183,8 @@ font-weight: 500;
   max-width: 100%;
   text-align: center;
 }
-.year{
+
+.year {
   font-size: 0.8rem;
   color: #8e8e8e;
 }
