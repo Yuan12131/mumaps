@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -37,7 +38,7 @@ function Index() {
         <div className={styles.box1}>
           나만의 취향으로 만드는 <br></br>나만의 플레이리스트<br></br>
           <Link href={`/algorithm`}>
-            <button>지금 바로 시작하기</button>
+            <button className={styles.try}>지금 바로 시작하기</button>
           </Link>
         </div>
       </div>
@@ -59,7 +60,6 @@ function Index() {
         </Link>
       </div>
       <div className={styles.banner4}>
-        {" "}
         <Link href="/map">
           <img
             src="/images/map.jpg"
