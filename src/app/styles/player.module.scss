@@ -24,7 +24,6 @@
   color: white;
   margin-left: 5vw;
   border-radius: 10px;
-
 }
 
 .trackWrapper {
@@ -74,4 +73,20 @@
   justify-content: center;
   align-items: center;
   width: 30%;
+}
+
+.infoButton{
+  background-color: rgb(36, 36, 36);
+cursor: pointer;
+  border: 1px solid white;
+  width: 2vw;
+  height: 2vw;
+  border-radius: 2vw;
+  color: white;
+  font-size: 1rem;
+}
+
+.infoMessage{
+  font-size: 13px;
+  height: 15vh;
 }
