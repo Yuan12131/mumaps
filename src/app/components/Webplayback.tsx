@@ -9,7 +9,7 @@ const track = {
   name: "",
   album: {
     images: [{ url: "" }],
-  },      
+  },
   artists: [{ name: "" }],
 };
 
@@ -20,7 +20,7 @@ function WebPlayback(props: { token: string | null; trackId: string }) {
   const [duration, setDuration] = useState(1);
   const [position, setPosition] = useState(0);
   const previousDeviceIdRef = useRef<string | null>(null);
-  
+  const [showInfoMessage, setShowInfoMessage] = useState(false);
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -31,7 +31,7 @@ function WebPlayback(props: { token: string | null; trackId: string }) {
 
     window.onSpotifyWebPlaybackSDKReady = async () => {
       const player = new window.Spotify.Player({
-        name: "MUMAPS",
+        name: "MUMUS",
         getOAuthToken: (cb) => {
           cb(props.token);
         },
@@ -60,19 +60,16 @@ function WebPlayback(props: { token: string | null; trackId: string }) {
             }),
           }
         );
-      
+
         if (response.ok) {
           console.log("Track played successfully");
         } else {
           console.error("Failed to play track:", response.statusText);
-        alert('Spotify 디바이스에 MUMAPS를 연결하고 다시 재생해주세요.')
         }
-      
+
         // 디바이스 아이디 저장
         previousDeviceIdRef.current = device_id;
       });
-      
-      
 
       player.addListener("player_state_changed", (state) => {
         setTrack(state.track_window.current_track);
@@ -91,13 +88,21 @@ function WebPlayback(props: { token: string | null; trackId: string }) {
 
       player.addListener("authentication_error", ({ message }) => {
         console.log(message);
-        alert("스포티파이 로그인 후 이용해주세요");
+        alert("Spotify 로그인 후 이용해주세요");
         window.location.href = "/login";
       });
     };
 
     previousDeviceIdRef.current = null;
   }, [props.token, props.trackId]);
+
+  const handleInfoButtonClick = () => {
+    setShowInfoMessage(true);
+  };
+
+  const handleInfoCloseClick = () => {
+    setShowInfoMessage(false);
+  };
 
   return (
     <div className={styles.container}>
@@ -134,6 +139,15 @@ function WebPlayback(props: { token: string | null; trackId: string }) {
           }}
         />
       </div>
+      <button className={styles.infoButton} onClick={handleInfoButtonClick}>
+        ?
+      </button>
+      {showInfoMessage && (
+        <div className={styles.infoMessage}>
+          <button onClick={handleInfoCloseClick}>X</button>
+          <p>Spotify에서 MUMUS 디바이스를 연결해야 재생됩니다.</p>
+        </div>
+      )}
     </div>
   );
 }
