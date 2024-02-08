@@ -143,7 +143,7 @@ const Algorithm = () => {
             showResults ? styles.sliderActive : ""
           }`}
         >
-          <span>우울한</span>
+          <span>NEGATIVE</span>
           <input
             type="range"
             min="0"
@@ -152,14 +152,14 @@ const Algorithm = () => {
             value={valence}
             onChange={(e) => setValence(parseFloat(e.target.value))}
           />
-          <span>밝은</span>
+          <span>POSITIVE</span>
         </div>
         <div
           className={`${styles.slider} ${
             showResults ? styles.sliderActive : ""
           }`}
         >
-          <span>차분한</span>
+          <span>SOFT</span>
           <input
             type="range"
             min="0"
@@ -168,30 +168,14 @@ const Algorithm = () => {
             value={energy}
             onChange={(e) => setEnergy(parseFloat(e.target.value))}
           />
-          <span>강렬한</span>
+          <span>POWERFUL</span>
         </div>
         <div
           className={`${styles.slider} ${
             showResults ? styles.sliderActive : ""
           }`}
         >
-          <span>나만아는</span>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            step="1"
-            value={popularity}
-            onChange={(e) => setPopularity(parseFloat(e.target.value))}
-          />
-          <span>대중적인</span>
-        </div>
-        <div
-          className={`${styles.slider} ${
-            showResults ? styles.sliderActive : ""
-          }`}
-        >
-          <span>가마니</span>
+          <span>STATIC</span>
           <input
             type="range"
             min="0"
@@ -200,14 +184,14 @@ const Algorithm = () => {
             value={danceability}
             onChange={(e) => setDanceability(parseFloat(e.target.value))}
           />
-          <span>춤추기 좋은</span>
+          <span>DYNAMIC</span>
         </div>
         <div
           className={`${styles.slider} ${
             showResults ? styles.sliderActive : ""
           }`}
         >
-          <span>보컬</span>
+          <span>MUSICAL</span>
           <input
             type="range"
             min="0"
@@ -216,14 +200,30 @@ const Algorithm = () => {
             value={instrumentalness}
             onChange={(e) => setInstrumentalness(parseFloat(e.target.value))}
           />
-          <span>반주</span>
+          <span>INSTRUMENTAL</span>
         </div>
         <div
           className={`${styles.slider} ${
             showResults ? styles.sliderActive : ""
           }`}
         >
-          <span>느린 템포</span>
+          <span>UNPOPULAR</span>
+          <input
+            type="range"
+            min="0"
+            max="100"
+            step="1"
+            value={popularity}
+            onChange={(e) => setPopularity(parseFloat(e.target.value))}
+          />
+          <span>POPULAR</span>
+        </div>
+        <div
+          className={`${styles.slider} ${
+            showResults ? styles.sliderActive : ""
+          }`}
+        >
+          <span>SLOW</span>
           <input
             type="range"
             min="60"
@@ -232,7 +232,7 @@ const Algorithm = () => {
             value={tempo}
             onChange={(e) => setTempo(parseFloat(e.target.value))}
           />
-          <span>빠른 템포</span>
+          <span>FAST</span>
         </div>
         <div
           className={`${styles.resultBtn} ${
@@ -240,7 +240,7 @@ const Algorithm = () => {
           }`}
         >
           <button type="button" onClick={onSubmit}>
-            결과 보기
+            GO
           </button>
         </div>
         {showResults && (
@@ -256,25 +256,29 @@ const Algorithm = () => {
             >
               <thead>
                 <tr>
-                  <th>밝음</th>
-                  <th>춤추기 좋은</th>
-                  <th>강렬한</th>
-                  <th>반주</th>
-                  <th>BPM</th>
-                  <th>인기도</th>
+                  <th>VALENCE<br></br>0-1</th>
+                  <th>ENERGY<br></br> 0-1</th>
+                  <th>DANCEANILITY <br></br>0-1</th>
+                  <th>INSTRUMENTALNESS<br></br> 0-1</th>
+                  <th>POPULARITY <br></br>0-100</th>
+                  <th>BPM <br></br>60-180</th>
+                  <th>                    <button
+                      type="button"
+                      className={styles.back}
+                      onClick={onNewSearch}
+                    >
+                      🔙
+                    </button></th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>{valence}</td>
-                  <td>{danceability}</td>
                   <td>{energy}</td>
+                  <td>{danceability}</td>
                   <td>{instrumentalness}</td>
-                  <td>{tempo}</td>
                   <td>{popularity}</td>
-                  <td>            <button type="button" className={styles.back} onClick={onNewSearch}>
-              뒤로가기
-            </button></td>
+                  <td>{tempo}</td>
                 </tr>
               </tbody>
             </table>
