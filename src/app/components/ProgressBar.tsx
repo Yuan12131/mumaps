@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import { Seekbar } from 'react-seekbar';
 import msToTime from './msToTime';
@@ -26,11 +26,16 @@ const ProgressBar = ({ is_paused, position, setPosition, duration, onSeek }: Pro
     return () => clearInterval(interval);
   }, [is_paused, position, setPosition]);
 
+  // duration이 변경될 때 초기화
+  useEffect(() => {
+    setPos(0);
+  }, [duration]);
+
   return (
-    <div style={{display: "flex", alignItems: "center", justifyContent: "space-between",width:"100%"}}>
-      <p style={{margin: "0 10px", fontSize: "12px"}}>{msToTime(pos)}</p>
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
+      <p style={{ margin: "0 10px", fontSize: "12px" }}>{msToTime(pos)}</p>
       <Seekbar height={5} position={pos} duration={duration} onSeek={onSeek} fullWidth />
-      <p style={{margin: "0 10px", fontSize: "12px"}}>{msToTime(duration)}</p>
+      <p style={{ margin: "0 10px", fontSize: "12px" }}>{msToTime(duration)}</p>
     </div>
   );
 };
