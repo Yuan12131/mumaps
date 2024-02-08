@@ -1,10 +1,11 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import React, { useEffect, useState, FormEvent } from "react";
 import styles from "@/app/styles/algorithm.module.scss";
 import Topbar from "@/app/components/Topbar";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import WebPlayback from "../components/Webplayback";
 
 interface TrackInfo {
   id: string;
@@ -40,45 +41,44 @@ const Algorithm = () => {
   const [tempo, setTempo] = useState<number>(120);
   const [popularity, setPopularity] = useState<number>(50);
   const [showResults, setShowResults] = useState<boolean>(false);
-  const [spotifyToken, setSpotifyToken] = useState<string | null>(null);
   const [searchResults, setSearchResults] = useState<TrackInfo[]>([]);
-  const [query, setQuery] = useState<string>("");
   const [searchType, setSearchType] = useState<string>("track");
-  const router = useRouter();
+  const [selectedTrack, setSelectedTrack] = useState<TrackInfo | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+  const [searchToken, setSearchToken] = useState<string | null>(null);
 
   useEffect(() => {
-    const getToken = async () => {
+    async function getTokens() {
       try {
-        const clientId = "60e467fba3aa4b0e94cc77ddaa0e5937";
-        const clientSecret = "8a878c6477db49b49105c0fcded3084f";
+        const response = await fetch("/auth/token");
+        const json = await response.json();
 
-        const { data } = await axios.post(
-          "https://accounts.spotify.com/api/token",
-          "grant_type=client_credentials",
-          {
-            headers: {
-              Authorization: `Basic ${Buffer.from(
-                `${clientId}:${clientSecret}`
-              ).toString("base64")}`,
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
-          }
-        );
+        if (json.access_token) {
+          setToken(json.access_token);
+        } else {
+          console.error("토큰이 비어 있습니다.");
+        }
 
-        const accessToken = data.access_token;
-        setSpotifyToken(accessToken);
+        // 검색을 위한 토큰 설정
+        const searchResponse = await fetch("/auth/searchToken");
+        const searchJson = await searchResponse.json();
+
+        if (searchJson.access_token) {
+          setSearchToken(searchJson.access_token);
+        } else {
+          console.error("검색 토큰이 비어 있습니다.");
+        }
       } catch (error) {
-        console.error("Error getting Spotify access token:", error);
+        console.error("토큰을 가져오는 도중 오류가 발생했습니다.", error);
       }
-    };
+    }
 
-    // 페이지가 로드될 때 액세스 토큰을 얻도록 호출
-    getToken();
+    getTokens();
   }, []);
 
   const searchSpotify = async () => {
     try {
-      if (!spotifyToken) {
+      if (!searchToken) {
         console.error("No Spotify access token available");
         return;
       }
@@ -89,7 +89,7 @@ const Algorithm = () => {
         `https://api.spotify.com/v1/recommendations?seed_artists=6RHTUrRF63xao58xh9FXYJ&seed_genres=pop%2Cedm%2Ccountry&${queryParams}`,
         {
           headers: {
-            Authorization: `Bearer ${spotifyToken}`,
+            Authorization: `Bearer ${searchToken}`,
           },
         }
       );
@@ -121,6 +121,11 @@ const Algorithm = () => {
 
   const onNewSearch = () => {
     setShowResults(false);
+  };
+
+  const handleTrackClick = (track: TrackInfo) => {
+    // 클릭한 트랙의 ID를 상태에 설정
+    setSelectedTrack(track);
   };
 
   return (
@@ -239,9 +244,11 @@ const Algorithm = () => {
           </button>
         </div>
         {showResults && (
-          <div className={`${styles.resultDiv} ${
-            showResults ? styles.sliderActive : ""
-          }`}>
+          <div
+            className={`${styles.resultDiv} ${
+              showResults ? styles.sliderActive : ""
+            }`}
+          >
             <table
               className={`${styles.input} ${
                 showResults ? styles.sliderActive : ""
@@ -258,12 +265,17 @@ const Algorithm = () => {
                 </tr>
               </thead>
               <tbody>
-                <td>{valence}</td>
-                <td>{danceability}</td>
-                <td>{energy}</td>
-                <td>{instrumentalness}</td>
-                <td>{tempo}</td>
-                <td>{popularity}</td>
+                <tr>
+                  <td>{valence}</td>
+                  <td>{danceability}</td>
+                  <td>{energy}</td>
+                  <td>{instrumentalness}</td>
+                  <td>{tempo}</td>
+                  <td>{popularity}</td>
+                  <td>            <button type="button" className={styles.back} onClick={onNewSearch}>
+              뒤로가기
+            </button></td>
+                </tr>
               </tbody>
             </table>
             <table
@@ -279,6 +291,7 @@ const Algorithm = () => {
                   <th>아티스트</th>
                   <th>앨범</th>
                   <th>🕛</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -290,7 +303,7 @@ const Algorithm = () => {
                         <img
                           src={track.album.images[0].url}
                           alt={track.name}
-                          style={{ width: "4vw", height: "4vw" }}
+                          style={{ width: "5vw", height: "5vw" }}
                         />
                       )}
                     </td>
@@ -298,6 +311,19 @@ const Algorithm = () => {
                     <td>{track.artists[0].name}</td>
                     <td>{track.album.name}</td>
                     <td>{formatDuration(track.duration_ms)}</td>
+                    <td>
+                      <img
+                        src="/images/play_circle.svg"
+                        alt={track.name}
+                        style={{
+                          width: "3vw",
+                          height: "3vw",
+                          borderRadius: "2px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => handleTrackClick(track)}
+                      />
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -305,6 +331,9 @@ const Algorithm = () => {
           </div>
         )}
       </div>
+      {searchType === "track" && selectedTrack && (
+        <WebPlayback trackId={selectedTrack.id} token={token} />
+      )}
     </div>
   );
 };
