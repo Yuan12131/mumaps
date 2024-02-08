@@ -84,7 +84,7 @@ const SearchPage = () => {
       }
 
       const searchResponse = await axios.get(
-        `https://api.spotify.com/v1/search?q=${query}&type=${searchType}&limit=10`,
+        `https://api.spotify.com/v1/search?q=${query}&type=${searchType}`,
         {
           headers: {
             Authorization: `Bearer ${searchToken}`,
@@ -134,14 +134,10 @@ const SearchPage = () => {
   };
 
   const handleTrackClick = (track: TrackInfo) => {
-    // 클릭한 트랙이 이미 선택한 트랙과 동일하면 아무 작업도 수행하지 않음
-    if (selectedTrack && selectedTrack.id === track.id) {
-      return;
-    }
-  
     // 클릭한 트랙의 ID를 상태에 설정
     setSelectedTrack(track);
   };
+  
 
   return (
     <div className={styles.container}>
@@ -293,7 +289,7 @@ const SearchPage = () => {
           </div>
         )}
       </div>
-      {searchType === "track" && selectedTrack && selectedTrack.id && (
+      {searchType === "track" && selectedTrack && (
   <WebPlayback trackId={selectedTrack.id} token={token} />
 )}
     </div>
