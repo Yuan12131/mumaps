@@ -34,3 +34,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+.hintrc
+package-lock.json
+.hintrc
+package-lock.json
+package.json
+.gitignore
