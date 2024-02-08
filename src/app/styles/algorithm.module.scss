@@ -26,7 +26,7 @@
 }
 
 .slider {
-  width: 30vw;
+  width: 33vw;
   height: 8vh;
   background-color: rgb(44, 44, 44);
   border: 1px solid black;
@@ -35,7 +35,7 @@
   align-items: center;
   justify-content: center;
   color: white;
-  margin: 0 5vw -5vh 5vw;
+  margin: 0 4vw -5vh 4vw;
   font-size: 14px;
 }
 
@@ -70,14 +70,18 @@
 }
 
 .input th {
-  font-size: 14px;
+  font-size: 17px;
   font-weight: 900;
+}
+
+.input td {
+  height: 4vh;
 }
 
 .input th,
 .input td {
   font-size: 13px;
-  padding: 8px;
+  padding: 4px;
   text-align: center;
   background-color: rgb(241, 241, 241);
   border-radius: 5px;
@@ -92,6 +96,10 @@
   color: white;
 }
 
+.slider> span {
+  margin: 0 2vw 0 2vw;
+}
+
 .sliderActive .table th,
 .sliderActive .table td {
   color: white;
@@ -102,7 +110,7 @@
 .sliderActive .resultBtn {
   display: none;
 }
-.input td:nth-child(7){
+.input th:nth-child(7){
   background-color: white;
   width: 10vw;
 }
@@ -115,13 +123,15 @@
   border-radius: 10vw;
   margin: 0 5vw 3vh 5vw;
   cursor: pointer;
+  font-size: 1.3rem;
 }
 
 .back{
   width: 7vw;
-  height: 5vh;  
-  background-color: rgb(61, 61, 61);
-  border: 1px solid white;
+  height: 7vh; 
+  font-size: 2rem;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid black;
   color: white;
   border-radius: 5px;
   cursor: pointer;
