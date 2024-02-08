@@ -9,8 +9,8 @@
 }
 
 .sliderContainer {
-  width: 80vw;
-  height: 60vh;
+  height: 65vh;
+  width: 90vw;
   background-color: #ffffff;
   border: 1px solid rgb(57, 57, 57);
   display: flex;
@@ -18,49 +18,55 @@
   justify-content: center;
   flex-wrap: wrap;
   overflow: auto;
-  align-items: center;
+  align-items: flex-end;
   margin-top: 5vh;
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding: 10px;
 }
 
 .slider {
   width: 30vw;
-  height: 9vh;
-  background-color: #ffd9d9;
+  height: 8vh;
+  background-color: rgb(44, 44, 44);
   border: 1px solid black;
   border-radius: 30vw;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 3vw -5vh 3vw;
+  color: white;
+  margin: 0 5vw -5vh 5vw;
+  font-size: 14px;
 }
 
 .class {
   color: white;
   margin: 3vw;
   font-size: 13px;
-  width: 90%;
+  width: 95%;
+  border-radius: 10px;
 }
 
 .class th,
 .class td {
   background-color: rgb(44, 44, 44);
-  border: 1px solid white;
   color: white;
-  padding: 8px;
+  padding: 0 5px 0 5px;
   text-align: center;
+  border-radius: 3px;
 }
 
 .class th {
   background-color: #000000;
   font-size: 14px;
   font-weight: 500;
+  height: 5vh;
 }
 
 .input {
-  width: 90%;
-  margin-top: 5vh;
-
-
+  width: 95%;
+  margin-top: 3vh;
+  border-radius: 10px;
 }
 
 .input th {
@@ -70,12 +76,11 @@
 
 .input th,
 .input td {
-  color: rgb(255, 255, 255);
   font-size: 13px;
   padding: 8px;
   text-align: center;
-  background-color: rgb(44, 44, 44);
-  border: 1px solid white;
+  background-color: rgb(241, 241, 241);
+  border-radius: 5px;
 }
 
 .sliderActive .table {
@@ -97,20 +102,33 @@
 .sliderActive .resultBtn {
   display: none;
 }
-
+.input td:nth-child(7){
+  background-color: white;
+  width: 10vw;
+}
 .resultBtn>button {
   width: 10vw;
-  height: 5vh;
-  background-color: rgb(61, 61, 61);
+  height: 7vh;
+  background-color: rgb(0, 0, 0);
   border: 1px solid white;
   color: white;
   border-radius: 10vw;
-  margin: 0 5vw 0 5vw;
+  margin: 0 5vw 3vh 5vw;
+  cursor: pointer;
+}
+
+.back{
+  width: 7vw;
+  height: 5vh;  
+  background-color: rgb(61, 61, 61);
+  border: 1px solid white;
+  color: white;
+  border-radius: 5px;
   cursor: pointer;
 }
 
 .slider>input {
-  accent-color: rgb(62, 62, 62);
+  accent-color: rgb(255, 255, 255);
 }
 
 .resultDiv {
@@ -118,4 +136,5 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
 }
