@@ -125,32 +125,32 @@ app.prepare().then(() => {
     }
   });
 
-//   // 주기적으로 액세스 토큰을 갱신하는 함수
-// const refreshAccessToken = async () => {
-//   try {
-//     const authResponse = await axios.post(
-//       "https://accounts.spotify.com/api/token",
-//       null,
-//       {
-//         params: {
-//           grant_type: "client_credentials",
-//         },
-//         auth: {
-//           username: client_id,
-//           password: client_secret,
-//         },
-//       }
-//     );
+  // 주기적으로 액세스 토큰을 갱신하는 함수
+const refreshAccessToken = async () => {
+  try {
+    const authResponse = await axios.post(
+      "https://accounts.spotify.com/api/token",
+      null,
+      {
+        params: {
+          grant_type: "client_credentials",
+        },
+        auth: {
+          username: client_id,
+          password: client_secret,
+        },
+      }
+    );
 
-//     accessToken = authResponse.data.access_token;
-//     console.log("Access token refreshed:", new Date());
-//   } catch (error) {
-//     console.error("Error refreshing access token:", error);
-//   }
-// };
+    accessToken = authResponse.data.access_token;
+    console.log("Access token refreshed:", new Date());
+  } catch (error) {
+    console.error("Error refreshing access token:", error);
+  }
+};
 
-//   // 주기적으로 액세스 토큰을 갱신 (예: 1시간마다)
-//   setInterval(refreshAccessToken, 60 * 60 * 1000); // 1시간마다 실행
+  // 주기적으로 액세스 토큰을 갱신 (예: 1시간마다)
+  setInterval(refreshAccessToken, 60 * 60 * 1000); // 1시간마다 실행
 
   server.get("/auth/token", (req, res) => {
     res.json({
