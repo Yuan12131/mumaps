@@ -144,8 +144,8 @@ function WebPlayback(props: { token: string | null; trackId: string }) {
       </button>
       {showInfoMessage && (
         <div className={styles.infoMessage}>
-          <button onClick={handleInfoCloseClick}>X</button>
           <p>Spotify에서 MUMUS 디바이스를 연결해야 재생됩니다.</p>
+          <button onClick={handleInfoCloseClick}>X</button>
         </div>
       )}
     </div>
