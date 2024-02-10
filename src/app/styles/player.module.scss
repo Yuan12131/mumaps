@@ -84,9 +84,25 @@ cursor: pointer;
   border-radius: 2vw;
   color: white;
   font-size: 1rem;
+  margin-left: 1vw;
 }
 
+.infoMessage > p{
+  font-size: 12px;
+  margin: 0 1vw 0 -2vw;
+}
 .infoMessage{
-  font-size: 13px;
+  width: 30vw;
   height: 15vh;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+}
+.infoMessage > button{
+  background-color: rgb(36, 36, 36);
+  cursor: pointer;
+  color: white;
+  border: 1px solid white;
+  width: 2vw;
+  height: 2vw;
 }
