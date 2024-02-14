@@ -88,7 +88,6 @@ function WebPlayback(props: { token: string | null; trackId: string }) {
 
       player.addListener("authentication_error", ({ message }) => {
         console.log(message);
-        alert("Spotify 로그인 후 이용해주세요");
         window.location.href = "/login";
       });
     };
