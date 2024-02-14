@@ -44,7 +44,11 @@
   padding: 3px;
   text-align: center;
   border-radius: 3px;
+}
 
+tr.row:hover{
+  background-color: #dbdbdb;
+  color: #000;
 }
 
 .table th {
