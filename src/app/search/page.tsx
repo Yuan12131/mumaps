@@ -16,6 +16,10 @@ interface TrackInfo {
   images: Image[];
   duration_ms: number;
   release_date: string;
+  spotify: string;
+  external_urls: {
+    spotify: string;
+  };
 }
 
 interface Artist {
@@ -38,7 +42,6 @@ const SearchPage = () => {
   const [query, setQuery] = useState<string>("");
   const [searchResults, setSearchResults] = useState<TrackInfo[]>([]);
   const [searchType, setSearchType] = useState<string>("track"); // 초기값은 'track'으로 설정
-  const router = useRouter();
   const [isActive, setIsActive] = useState<boolean>(false);
   const [token, setToken] = useState<string | null>(null);
   const [playlist, setPlaylist] = useState([]);
@@ -137,7 +140,6 @@ const SearchPage = () => {
     // 클릭한 트랙의 ID를 상태에 설정
     setSelectedTrack(track);
   };
-  
 
   return (
     <div className={styles.container}>
@@ -246,17 +248,24 @@ const SearchPage = () => {
           <div className={styles.artistResults}>
             {searchResults.map((artist) => (
               <div className={styles.artistCard} key={artist.id}>
-                {artist.images && artist.images.length > 0 && (
-                  <img
-                    src={artist.images[0].url}
-                    alt={artist.name}
-                    style={{
-                      width: "11vw",
-                      height: "11vw",
-                      borderRadius: "11vw",
-                    }}
-                  />
-                )}
+                <a
+                  href={artist.external_urls.spotify}
+                  target="_blank" // Open the link in a new tab
+                  rel="noopener noreferrer" // Recommended for security reasons
+                  className={styles.name}
+                >
+                  {artist.images && artist.images.length > 0 && (
+                    <img
+                      src={artist.images[0].url}
+                      alt={artist.name}
+                      style={{
+                        width: "11vw",
+                        height: "11vw",
+                        borderRadius: "11vw",
+                      }}
+                    />
+                  )}
+                </a>
                 <p className={styles.name}>{artist.name}</p>
                 <p className={styles.artist}>artist</p>
               </div>
@@ -268,17 +277,24 @@ const SearchPage = () => {
           <div className={styles.albumResults}>
             {searchResults.map((album) => (
               <div className={styles.albumCard} key={album.id}>
-                {album.images && album.images.length > 0 && (
-                  <img
-                    src={album.images[0].url}
-                    alt={album.name}
-                    style={{
-                      width: "11vw",
-                      height: "11vw",
-                      borderRadius: "10px",
-                    }}
-                  />
-                )}
+                <a
+                  href={album.external_urls.spotify}
+                  target="_blank" // Open the link in a new tab
+                  rel="noopener noreferrer" // Recommended for security reasons
+                  className={styles.name}
+                >
+                  {album.images && album.images.length > 0 && (
+                    <img
+                      src={album.images[0].url}
+                      alt={album.name}
+                      style={{
+                        width: "11vw",
+                        height: "11vw",
+                        borderRadius: "10px",
+                      }}
+                    />
+                  )}
+                </a>
                 <p className={styles.album}>{album.name}</p>
                 <p className={styles.year}>
                   {new Date(album.release_date).getFullYear()}{" "}
@@ -290,8 +306,8 @@ const SearchPage = () => {
         )}
       </div>
       {searchType === "track" && selectedTrack && (
-  <WebPlayback trackId={selectedTrack.id} token={token} />
-)}
+        <WebPlayback trackId={selectedTrack.id} token={token} />
+      )}
     </div>
   );
 };
