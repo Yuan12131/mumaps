@@ -1,0 +1,23 @@
+.banner {
+  background-color: #f9f5f1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20vh;
+  >a {
+    text-decoration: none;
+    color: black;
+  }
+}
+
+.form {
+  box-sizing: border-box;
+  width: 25vw;
+  height: 8vh;
+  border-radius: 10px;
+  border: 2px solid #000;
+  background: #FAF4F4;
+  font-size: 1.1rem;
+  line-height: 7vh;
+  text-align: center;
+}
