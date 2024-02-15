@@ -1,70 +1,87 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Sixtyfour&display=swap');
 
-.topbar{
-  width: 100vw;
-  height: 15vh;
-  display: flex;
-}
+$color-white: white;
+$color-black: black;
+$font-family-sixtyfour: 'Sixtyfour', sans-serif;
+$font-size-large: 3rem;
+$spacing-medium: 2vw;
+$button-width: 80px;
+$button-height: 35px;
+$div-width: 25vw;
 
-.div1{
-  width: 25vw;
+@mixin topbar-div {
   display: flex;
   align-items: center;
   justify-content: center;
-  a{
-    color: white;
-    text-decoration: none;
-    &:hover {
-      color: black;
-    }
+}
+
+@mixin topbar-link {
+  color: $color-white;
+  text-decoration: none;
+  margin-right: $spacing-medium;
+
+  &:hover {
+    color: $color-black;
   }
 }
 
-
-.linkname{
-  margin-right:2vw;
-  text-decoration: none;
-}
-
-.div2{
-  width: 50vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Sixtyfour', sans-serif;
-  font-size: 3rem;
-  text-align: center;
-  a{
-    color: white;
-    text-decoration: none;
-  }
-}
-
-.div3{
-  width: 25vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.login{
-  color: white;
-  text-decoration: none;
+@mixin topbar-button {
+  color: $color-white;
   background-color: rgba(0, 0, 0, 0.716);
-  border:none;
-  border-radius:5px;
-  width: 80px;
-  height: 35px;
+  border: none;
+  border-radius: 5px;
+  width: $button-width;
+  height: $button-height;
   text-align: center;
   margin: 5px;
-  line-height: 35px;
+  line-height: $button-height;
   font-size: 13px;
   cursor: pointer;
+
   &:hover {
     background-color: rgba(217, 215, 215, 0.307);
-    color: black;
-    ;
-    cursor: pointer;
+    color: $color-black;
+  }
+}
+
+.topbar {
+  width: 100vw;
+  height: 15vh;
+  position: fixed;
+  z-index: 1000;
+  display: flex;
+
+
+  > div {
+    @include topbar-div;
+
+    &:first-child {
+      width: $div-width;
+
+      a {
+        @include topbar-link;
+      }
+    }
+
+    &:nth-child(2) {
+      width: 50vw;
+      font-family: $font-family-sixtyfour;
+      font-size: $font-size-large;
+      text-align: center;
+
+      a {
+        @include topbar-link;
+      }
+    }
+
+    &:last-child {
+      flex-direction: column;
+      width: $div-width;
+
+      button,
+      .login {
+        @include topbar-button;
+      }
+    }
   }
 }

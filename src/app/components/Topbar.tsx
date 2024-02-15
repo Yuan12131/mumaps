@@ -4,11 +4,6 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "@/app/styles/topbar.module.scss";
 
-const links = [
-  { name: "SEARCH", href: "/search" },
-  { name: "RECOMMAND", href: "/algorithm" },
-];
-
 function Topbar() {
   const [token, setToken] = useState<string | null>(null);
 
@@ -32,13 +27,16 @@ function Topbar() {
     getToken();
   }, []);
 
+  const links = [
+    { name: "SEARCH", href: "/search" },
+    { name: "RECOMMAND", href: "/algorithm" },
+  ];
+
   const handleLogout = async () => {
     try {
-      // 서버의 /logout 엔드포인트로 로그아웃 요청 보내기
       const response = await fetch("/logout");
   
       if (response.ok) {
-        // 로그아웃 성공 시 클라이언트 상태 업데이트
         setToken(null);
   
       } else {
@@ -51,29 +49,25 @@ function Topbar() {
 
   return (
     <div className={styles.topbar}>
-      <div className={styles.div1}>
+      <div>
         {links.map((link) => (
           <Link key={link.name} href={link.href}>
-            <p className={styles.linkname}>{link.name}</p>
+            <p>{link.name}</p>
           </Link>
         ))}
       </div>
 
-      <div className={styles.div2}>
+      <div>
         <Link href="/">MUMUS</Link>
       </div>
 
-      <div className={styles.div3}>
-      {token == null ? (
+      <div>
+        {token == null ? (
           <Link href="/login">
-        <div className={styles.login}>
-            LOGIN
-        </div>
+            <button className={styles.login} >LOGIN</button>
           </Link>
         ) : (
-          <>
-            <button className={styles.login} onClick={handleLogout}>LOGOUT</button>
-          </>
+          <button onClick={handleLogout}>LOGOUT</button>
         )}
       </div>
     </div>
