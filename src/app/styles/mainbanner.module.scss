@@ -1,0 +1,66 @@
+$banner-width: 100vw;
+$banner-height: 85vh;
+$box-width: 35vw;
+$box-height: 30vh;
+$box-margin-top: 35vh;
+$box-margin-left: 5vw;
+$box-font-size: 2rem;
+$button-width: 10vw;
+$button-height: 5vh;
+
+@mixin box-style {
+  width: $box-width;
+  height: $box-height;
+  margin-top: $box-margin-top;
+  margin-left: $box-margin-left;
+  font-size: $box-font-size;
+  color: white;
+  font-weight: 700;
+
+  h1 {
+    margin-bottom: 1vh;
+  }
+
+  button {
+    @include button-style;
+  }
+}
+
+@mixin button-style {
+  width: $button-width;
+  height: $button-height;
+  border: none;
+  border-radius: 20px;
+  background-color: black;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+
+  &:hover {
+    background-color: white;
+    color: black;
+  }
+}
+
+.banner {
+  width: $banner-width;
+  height: $banner-height;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  > div {
+    @include box-style;
+  }
+
+  .video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: $banner-width;
+    height: $banner-height;
+    object-fit: cover;
+    z-index: -1;
+  }
+}
