@@ -8,7 +8,7 @@ function SearchBanner() {
   return (
           <div className={styles.banner}>
         <Link href="/search">
-          <div className={styles.form}>🔍 지금 바로 Spotify에 검색하기</div>
+          <div>🔍 지금 바로 Spotify에 검색하기</div>
         </Link>
       </div>
   );
