@@ -24,7 +24,10 @@ function MainBanner() {
       <div>
         나만의 취향으로 만드는 <br></br>나만의 플레이어<br></br>
         <Link href={`/search`}>
-          <button>T R Y </button>
+          <button>SEARCH</button>
+        </Link>
+        <Link href={`/algorithm`}>
+          <button>RECOMMAND</button>
         </Link>
       </div>
     </div>
