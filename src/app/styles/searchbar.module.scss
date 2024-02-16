@@ -1,0 +1,66 @@
+$button-color: #262626;
+$btnactive-color: #707070;
+$text-color: white;
+$border-color: black;
+$border-radius: 20px;
+$input-height: 6vh;
+$input-background: #FAF4F4;
+
+@mixin flexbox{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin button-style {
+  border: 1px solid $border-color;
+  background-color: $button-color;
+  color: $text-color;
+  margin: 0.5vw;
+  border-radius: $border-radius;
+  padding: 0.5vw 1.3vw;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+
+  &.active {
+    background-color: $btnactive-color;
+    color: black;
+  }
+}
+
+.search {
+  @include flexbox;
+  height: 15vh;
+  margin-top: 15vh;
+}
+
+.search form {
+  @include flexbox;
+  width: 40vw;
+  height: 14vh;
+  padding-left: 1vw;
+  font-size: 1.2rem;
+}
+
+.search input {
+  width: 21vw;
+  height: $input-height;
+  border-radius: 30px;
+  border: 2px solid $border-color;
+  background: $input-background;
+  font-size: 1rem;
+  padding-left: 1vw;
+  margin-top: 1vw;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.search div {
+  button {
+    @include button-style;
+  }
+}
+
