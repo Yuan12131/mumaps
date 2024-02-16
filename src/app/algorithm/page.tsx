@@ -256,19 +256,34 @@ const Algorithm = () => {
             >
               <thead>
                 <tr>
-                  <th>VALENCE<br></br>0-1</th>
-                  <th>ENERGY<br></br> 0-1</th>
-                  <th>DANCEANILITY <br></br>0-1</th>
-                  <th>INSTRUMENTALNESS<br></br> 0-1</th>
-                  <th>POPULARITY <br></br>0-100</th>
-                  <th>BPM <br></br>60-180</th>
-                  <th>                    <button
+                  <th>
+                    VALENCE<br></br>0-1
+                  </th>
+                  <th>
+                    ENERGY<br></br> 0-1
+                  </th>
+                  <th>
+                    DANCEANILITY <br></br>0-1
+                  </th>
+                  <th>
+                    INSTRUMENTALNESS<br></br> 0-1
+                  </th>
+                  <th>
+                    POPULARITY <br></br>0-100
+                  </th>
+                  <th>
+                    BPM <br></br>60-180
+                  </th>
+                  <th>
+                    {" "}
+                    <button
                       type="button"
                       className={styles.back}
                       onClick={onNewSearch}
                     >
                       🔙
-                    </button></th>
+                    </button>
+                  </th>
                 </tr>
               </thead>
               <tbody>

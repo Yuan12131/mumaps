@@ -1,0 +1,148 @@
+$primary-color: white;
+$secondary-color: rgb(216, 216, 216);
+$border-radius: 10px;
+$border-width: 1px;
+$card-background-color: #262626;
+$card-margin: 1vw;
+$artist-card-height: 34vh;
+$album-card-height: 36vh;
+
+.result {
+  height: 58vh;
+  width: 90vw;
+  display: flex;
+  flex-direction: column;
+  color: $primary-color;
+  flex-wrap: wrap;
+  overflow: auto;
+  margin-top: $card-margin;
+  border-radius: $border-radius;
+  border: $border-width solid $primary-color;
+  margin-bottom: $card-margin;
+}
+
+.trackResult {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  font-size: 14px;
+  grid-row-gap: 5px;
+  border-radius: $border-radius;
+  padding: 10px;
+
+  > div {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    color: $secondary-color;
+    text-align: center;
+    border-radius: 5px;
+    border-radius: $border-radius;
+
+    grid-template-columns:
+      minmax(4vw, 4vw) minmax(5vw, 5vw) minmax(30vw, 30vw) minmax(15vw, 15vw) minmax(23vw, 23vw) minmax(5vw, 5vw) minmax(5vw, 5vw);
+
+    &:hover {
+      color: $primary-color;
+      font-size: 15px;
+      font-weight: 500;
+    }
+  }
+
+  > div:nth-child(1) > div {
+    height: 7vh;
+    position: relative;
+    background-color: #232323;
+    width: 100%;
+    line-height: 7vh;
+    font-size: 17px;
+    border-radius: $border-radius;
+    border: 3px solid black;
+  }
+
+  div:not(:nth-child(1)) > div:nth-child(2) {
+    background-color: black;
+    border-radius: $border-radius;
+  }
+
+  div > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 8vh;
+    width: 100%;
+    text-align: center;
+    background-color: #424242;
+    border-radius: $border-radius;
+    border: 3px solid black;
+  }
+}
+
+.artistResults {
+  height: 50vh;
+  width: 90vw;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  padding: $card-margin;
+
+  > div {
+    width: 15vw;
+    height: $artist-card-height;
+    background-color: $card-background-color;
+    border-radius: $border-radius;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: $card-margin;
+    justify-content: center;
+
+    > p:nth-child(2) {
+      padding: 3px;
+      font-size: 13px;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    > p:nth-child(3) {
+      font-size: 12px;
+      color: grey;
+    }
+  }
+}
+
+.albumResults {
+  height: 50vh;
+  width: 90vw;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  font-size: 0.9rem;
+
+  div {
+    width: 15vw;
+    height: $album-card-height;
+    background-color: $card-background-color;
+    border-radius: $border-radius;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 7px 0px;
+    margin: $card-margin;
+  }
+
+  div p:nth-child(2) {
+    font-weight: 900;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  div p:nth-child(3) {
+    font-size: 0.8rem;
+    color: #8e8e8e;
+  }
+}
