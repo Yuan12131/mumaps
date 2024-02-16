@@ -1,0 +1,68 @@
+$mainBackgroundColor: #f0ece6;
+$mainTextColor: rgb(60, 59, 59);
+$buttonBackgroundColor: rgb(0, 0, 0);
+$mainColor: white;
+
+@mixin flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.banner {
+  height: 80vh;
+  width: 100vw;
+  background-color: $mainBackgroundColor;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding: 10px;
+  flex-direction: column;
+
+  h2 {
+    color: $mainTextColor;
+    border-radius: 30px;
+    border: 1px solid black;
+    padding: 10px 30px;
+  }
+
+  div {
+    display: flex;
+    margin: 2vw;
+
+    input[type="range"] {
+      accent-color: $mainColor;
+    }
+
+    span {
+      margin: 0 2vw;
+    }
+
+    div {
+      width: 33vw;
+      height: 8vh;
+      margin: 0 5vw;
+      background-color: rgb(44, 44, 44);
+      border: 1px solid black;
+      border-radius: 30vw;
+      color: $mainColor;
+      font-size: 14px;
+      @include flexCenter;
+    }
+  }
+
+  a button {
+    width: 10vw;
+    height: 7vh;
+    background-color: $buttonBackgroundColor;
+    border: 1px solid $mainColor;
+    color: $mainColor;
+    border-radius: 10vw;
+    margin: 0 5vw 3vh;
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+}
