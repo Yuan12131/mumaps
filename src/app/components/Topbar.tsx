@@ -3,28 +3,23 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "@/app/styles/topbar.module.scss";
+import { getAccessToken } from "./utils/auth";
 
 function Topbar() {
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    async function getToken() {
+    async function getTokens() {
       try {
-        const response = await fetch("/auth/token");
-        const json = await response.json();
+        const accessToken = await getAccessToken();
 
-        if (json.access_token) {
-          // 토큰이 존재할 경우에만 상태를 업데이트합니다.
-          setToken(json.access_token);
-        } else {
-          console.error("토큰이 비어 있습니다.");
-        }
+        setToken(accessToken);
       } catch (error) {
         console.error("토큰을 가져오는 도중 오류가 발생했습니다.", error);
       }
     }
 
-    getToken();
+    getTokens();
   }, []);
 
   const links = [
