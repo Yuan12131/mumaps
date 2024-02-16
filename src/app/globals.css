@@ -13,9 +13,13 @@
   font-style: normal;
 }
 
-:root {
+html {
   font-family: 'Noto Sans KR', 'Roboto';
   box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
 }
 
 body {
