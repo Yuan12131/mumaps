@@ -44,7 +44,7 @@ app.prepare().then(() => {
     res.cookie(stateKey, state);
 
     const scope =
-      "user-read-private user-read-playback-state user-modify-playback-state streaming app-remote-control user-read-currently-playing";
+      "user-read-private user-read-email user-read-playback-state user-modify-playback-state streaming app-remote-control user-read-currently-playing";
     res.redirect(
       "https://accounts.spotify.com/authorize?" +
         querystring.stringify({
@@ -123,32 +123,31 @@ app.prepare().then(() => {
   });
 
   // 주기적으로 액세스 토큰을 갱신하는 함수
-const refreshAccessToken = async () => {
-  try {
-    const authResponse = await axios.post(
-      "https://accounts.spotify.com/api/token",
-      null,
-      {
-        params: {
-          grant_type: "client_credentials",
-        },
-        auth: {
-          username: client_id,
-          password: client_secret,
-        },
-      }
-    );
+  const refreshAccessToken = async () => {
+    try {
+      const authResponse = await axios.post(
+        "https://accounts.spotify.com/api/token",
+        null,
+        {
+          params: {
+            grant_type: "client_credentials",
+          },
+          auth: {
+            username: client_id,
+            password: client_secret,
+          },
+        }
+      );
 
-    accessToken = authResponse.data.access_token;
-    console.log("Access token refreshed:", new Date());
-  } catch (error) {
-    console.error("Error refreshing access token:", error);
-  }
-};
+      accessToken = authResponse.data.access_token;
+      console.log("Access token refreshed:", new Date());
+    } catch (error) {
+      console.error("Error refreshing access token:", error);
+    }
+  };
 
   setInterval(refreshAccessToken, 60 * 60 * 1000); // 1시간마다 실행
 
-  
   server.get("/auth/token", (req, res) => {
     res.json({
       access_token: req.session.access_token || "",
