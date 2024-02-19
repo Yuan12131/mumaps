@@ -1,0 +1,90 @@
+$container-width: 100vw;
+$container-height: 100vh;
+$container-background-color: black;
+$container-inner-width: 90vw;
+$container-inner-background-color: #ffffff;
+$container-inner-border: 1px solid rgb(57, 57, 57);
+$container-inner-border-radius: 10px;
+$container-inner-padding: 10px;
+$container-grid-columns: repeat(7, 1fr);
+$grid-border: 2px solid white;
+$grid-cell-background: rgb(241, 241, 241);
+$grid-cell-text-align: center;
+$grid-header-background: $grid-cell-background;
+$grid-header-font-weight: 700;
+$grid-row-height: 5vh;
+$grid-button-font-size: 2rem;
+$grid-button-width: 6vw;
+
+@mixin inner-container {
+  width: $container-inner-width;
+  background-color: $container-inner-background-color;
+  border: $container-inner-border;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  overflow: auto;
+  align-items: flex-end;
+  border-radius: $container-inner-border-radius;
+  padding: $container-inner-padding;
+  margin-top: 20vh;
+}
+
+.container {
+  width: $container-width;
+  height: $container-height;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $container-background-color;
+  
+  > div {
+    @include inner-container;
+  }
+}
+
+
+.grid {
+  display: grid;
+  grid-template-columns: $container-grid-columns;
+  width: 95%;
+  margin-top: 3vh;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 13px;
+  border: 1px solid white;
+
+  > div {
+    border-radius: 10px;
+    border: $grid-border;
+    background-color: $grid-cell-background;
+    text-align: $grid-cell-text-align;
+  }
+
+  > div:nth-child(-n + 7) {
+    grid-row: 1;
+    font-weight: $grid-header-font-weight;
+    gap: 10px;
+    padding: 5px;
+    background-color: $grid-header-background;
+  }
+
+  > div:nth-child(n + 8) {
+    grid-row: 2;
+    height: $grid-row-height;
+    line-height: $grid-row-height;
+  }
+
+  div:nth-child(7) {
+    background-color: white;
+
+    > button {
+      font-size: $grid-button-font-size;
+      background-color: white;
+      border: 1px solid black;
+      cursor: pointer;
+      border-radius: 10px;
+      width: $grid-button-width;
+    }
+  }
+}
