@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "@/app/styles/topbar.module.scss";
-import { getAccessToken } from "./utils/auth";
+import { getAccessToken } from "../../utils/auth";
 
 function Topbar() {
   const [token, setToken] = useState<string | null>(null);

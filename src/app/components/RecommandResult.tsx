@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { FC } from "react";
 import styles from "@/app/styles/recommandresult.module.scss";
-import { TrackInfo } from "../components/utils/trackinfo";
-import formatDuration from "../components/utils/formatDuration";
+import { TrackInfo } from "../../types/trackinfo";
+import formatDuration from "../../utils/formatDuration";
 
 interface RecoomandResultProps {
   searchResults: TrackInfo[];

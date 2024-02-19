@@ -5,8 +5,8 @@ import styles from "@/app/styles/recommandpage.module.scss";
 import axios from "axios";
 import WebPlayback from "../components/Webplayback";
 import RecommandBar from "../components/RecommandBar";
-import { TrackInfo } from "../components/utils/trackinfo";
-import { getSearchToken, getAccessToken } from "../components/utils/auth";
+import { TrackInfo } from "../../types/trackinfo";
+import { getSearchToken, getAccessToken } from "../../utils/auth";
 import RecommandResult from "../components/RecommandResult";
 
 const Recommend = () => {

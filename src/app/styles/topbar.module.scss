@@ -2,7 +2,6 @@
 
 $color-white: white;
 $color-black: black;
-$font-family-sixtyfour: 'Sixtyfour', sans-serif;
 $font-size-large: 3rem;
 $spacing-medium: 2vw;
 $button-width: 80px;
@@ -42,7 +41,7 @@ $div-width: 25vw;
 
     &:nth-child(2) {
       width: 50vw;
-      font-family: $font-family-sixtyfour;
+      font-family: 'Sixtyfour', sans-serif;
       font-size: $font-size-large;
       text-align: center;
 

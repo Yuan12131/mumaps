@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import { Seekbar } from 'react-seekbar';
-import msToTime from './utils/msToTime';
+import msToTime from '../../utils/msToTime';
 
 interface ProgressBarProps {
   is_paused: boolean;

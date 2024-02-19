@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 import styles from "@/app/styles/searchresult.module.scss";
-import formatDuration from "./utils/formatDuration";
-import { TrackInfo } from "./utils/trackinfo";
+import formatDuration from "../../utils/formatDuration";
+import { TrackInfo } from "../../types/trackinfo";
 
 interface SearchResultsProps {
   searchResults: TrackInfo[];

@@ -6,8 +6,8 @@ import styles from "@/app/styles/searchpage.module.scss";
 import WebPlayback from "../components/Webplayback";
 import SearchBar from "../components/SearchBar";
 import SearchResult from "../components/SearchResult";
-import { TrackInfo } from "../components/utils/trackinfo";
-import { getSearchToken, getAccessToken } from "../components/utils/auth";
+import { TrackInfo } from "../../types/trackinfo";
+import { getSearchToken, getAccessToken } from "../../utils/auth";
 
 const SearchPage = () => {
   const [query, setQuery] = useState<string>("");
