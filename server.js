@@ -15,9 +15,10 @@ const port = process.env.PORT || 3000;
 app.prepare().then(() => {
   const server = express();
 
-  const client_id = "60e467fba3aa4b0e94cc77ddaa0e5937"; // your clientId
-  const client_secret = "8a878c6477db49b49105c0fcded3084f"; // Your secret
-  const redirect_uri = "http://localhost:3000/callback"; // Your redirect uri
+  const client_id = process.env.SPOTIFY_CLIENT_ID;
+  const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+  const redirect_uri = process.env.SPOTIFY_REDIRECT_URI;
+  const session_secret = process.env.SESSION_SECRET;
 
   const generateRandomString = (length) => {
     return crypto.randomBytes(60).toString("hex").slice(0, length);
@@ -32,17 +33,18 @@ app.prepare().then(() => {
 
   server.use(
     session({
-      secret: "your-secret-key",
+      secret: session_secret,
       resave: false,
       saveUninitialized: true,
     })
   );
+
   server.get("/login", function (req, res) {
     const state = generateRandomString(16);
     res.cookie(stateKey, state);
 
     const scope =
-      "user-read-private user-read-email user-read-playback-state user-modify-playback-state streaming app-remote-control user-read-currently-playing";
+      "user-read-private user-read-playback-state user-modify-playback-state streaming app-remote-control user-read-currently-playing";
     res.redirect(
       "https://accounts.spotify.com/authorize?" +
         querystring.stringify({
@@ -56,9 +58,6 @@ app.prepare().then(() => {
   });
 
   server.get("/callback", function (req, res) {
-    // your application requests refresh and access tokens
-    // after checking the state parameter
-
     const code = req.query.code || null;
     const state = req.query.state || null;
     const storedState = req.cookies ? req.cookies[stateKey] : null;
@@ -100,12 +99,10 @@ app.prepare().then(() => {
             json: true,
           };
 
-          // use the access token to access the Spotify Web API
           request.get(options, function (error, response, body) {
             console.log(body);
           });
 
-          // we can also pass the token to the browser to make requests from there
           res.redirect(
             "/#" +
               querystring.stringify({
@@ -149,9 +146,9 @@ const refreshAccessToken = async () => {
   }
 };
 
-  // 주기적으로 액세스 토큰을 갱신 (예: 1시간마다)
   setInterval(refreshAccessToken, 60 * 60 * 1000); // 1시간마다 실행
 
+  
   server.get("/auth/token", (req, res) => {
     res.json({
       access_token: req.session.access_token || "",
