@@ -1,16 +1,16 @@
 $base-height: 25vh;
-$base-color: #000;
-$text-color: white;
+$color-black: #000;
+$color-white: white;
 
 .banner {
   height: $base-height;
-  background-color: $base-color;
+  background-color: $color-black;
   display: flex;
   align-items: center;
 
   div {
     height: $base-height;
-    color: $text-color;
+    color: $color-white;
     padding: 3vh;
 
     &:first-child {

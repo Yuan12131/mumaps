@@ -1,0 +1,58 @@
+$color-white: white;
+$color-black: black;
+$border-radius: 5px;
+$card-background-color: #262626;
+$card-margin: 1vw;
+$artist-card-height: 34vh;
+$album-card-height: 36vh;
+
+.gridTable {
+  display: grid;
+  font-size: 14px;
+  border-radius: $border-radius;
+  padding: 10px;
+  margin-top: 5vh;
+
+  >div {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    color: $color-white;
+    text-align: center;
+    grid-template-columns:
+      minmax(4vw, 4vw) minmax(5vw, 5vw) minmax(26vw, 26vw) minmax(16vw, 16vw) minmax(21vw, 21vw) minmax(5vw, 5vw) minmax(5vw, 5vw);
+
+    &:hover {
+      color: $color-white;
+      font-size: 15px;
+      font-weight: 500;
+    }
+  }
+
+  >div:nth-child(1)>div {
+    height: 6vh;
+    position: relative;
+    background-color: $color-black;
+    width: 100%;
+    line-height: 7vh;
+    font-size: 17px;
+    border: 2px solid white;
+  }
+
+  div>div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 9vh;
+    width: 100%;
+    text-align: center;
+    background-color: #2b2b2b;
+    border-radius: $border-radius;
+    border: 2px solid white;
+  }
+
+  >div:not(:nth-child(1))>div:nth-child(2) {
+    background-color: rgb(25, 25, 25);
+  }
+}

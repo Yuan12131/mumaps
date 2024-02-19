@@ -7,42 +7,8 @@ $box-margin-left: 5vw;
 $box-font-size: 2rem;
 $button-width: 8vw;
 $button-height: 5vh;
-
-@mixin box-style {
-  width: $box-width;
-  height: $box-height;
-  margin-top: $box-margin-top;
-  margin-left: $box-margin-left;
-  font-size: $box-font-size;
-  color: white;
-  font-weight: 700;
-
-  h1 {
-    margin-bottom: 1vh;
-  }
-
-  button {
-    @include button-style;
-  }
-}
-
-@mixin button-style {
-  width: $button-width;
-  height: $button-height;
-  border: none;
-  border-radius: 20px;
-  background-color: black;
-  color: white;
-  font-size: 0.8rem;
-  font-weight: bold;
-  cursor: pointer;
-  margin-right: 1vw;
-
-  &:hover {
-    background-color: white;
-    color: black;
-  }
-}
+$color-white: white;
+$color-black: black;
 
 .banner {
   width: $banner-width;
@@ -52,7 +18,35 @@ $button-height: 5vh;
   flex-direction: column;
 
   > div {
-    @include box-style;
+    width: $box-width;
+    height: $box-height;
+    margin-top: $box-margin-top;
+    margin-left: $box-margin-left;
+    font-size: $box-font-size;
+    color: $color-white;
+    font-weight: 700;
+  
+    h1 {
+      margin-bottom: 1vh;
+    }
+  
+    button {
+      width: $button-width;
+      height: $button-height;
+      border: none;
+      border-radius: 20px;
+      background-color: $color-black;
+      color: $color-white;
+      font-size: 0.8rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-right: 1vw;
+    
+      &:hover {
+        background-color: $color-white;
+        color: $color-black;
+      }
+    }
   }
 
   .video {

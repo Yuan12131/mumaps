@@ -1,34 +1,14 @@
 $container-width: 100vw;
 $container-height: 100vh;
-$container-background-color: black;
 $container-inner-width: 90vw;
+$container-inner-height: 65vh;
 $container-inner-background-color: #ffffff;
 $container-inner-border: 1px solid rgb(57, 57, 57);
 $container-inner-border-radius: 10px;
 $container-inner-padding: 10px;
-$container-grid-columns: repeat(7, 1fr);
-$grid-border: 2px solid white;
-$grid-cell-background: rgb(241, 241, 241);
-$grid-cell-text-align: center;
-$grid-header-background: $grid-cell-background;
-$grid-header-font-weight: 700;
+$color-black: black;
+$color-white: white;
 $grid-row-height: 5vh;
-$grid-button-font-size: 2rem;
-$grid-button-width: 6vw;
-
-@mixin inner-container {
-  width: $container-inner-width;
-  background-color: $container-inner-background-color;
-  border: $container-inner-border;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  overflow: auto;
-  align-items: flex-end;
-  border-radius: $container-inner-border-radius;
-  padding: $container-inner-padding;
-  margin-top: 20vh;
-}
 
 .container {
   width: $container-width;
@@ -36,17 +16,27 @@ $grid-button-width: 6vw;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: $container-background-color;
+  background-color: $color-black;
   
   > div {
-    @include inner-container;
+    width: $container-inner-width;
+    height: $container-inner-height;
+    background-color: $color-white;
+    border: $container-inner-border;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    overflow: auto;
+    align-items: flex-end;
+    border-radius: $container-inner-border-radius;
+    padding: $container-inner-padding;
+    margin-top: 20vh;
   }
 }
 
-
 .grid {
   display: grid;
-  grid-template-columns: $container-grid-columns;
+  grid-template-columns: repeat(7, 1fr);
   width: 95%;
   margin-top: 3vh;
   border-radius: 5px;
@@ -55,18 +45,19 @@ $grid-button-width: 6vw;
   border: 1px solid white;
 
   > div {
-    border-radius: 10px;
-    border: $grid-border;
-    background-color: $grid-cell-background;
-    text-align: $grid-cell-text-align;
+    width: 12vw;
+    border-radius: 5px;
+    border: 2px solid white;
+    background-color: rgb(241, 241, 241);
+    text-align: center;
   }
 
   > div:nth-child(-n + 7) {
     grid-row: 1;
-    font-weight: $grid-header-font-weight;
+    font-weight: 700;
     gap: 10px;
     padding: 5px;
-    background-color: $grid-header-background;
+    background-color: rgb(241, 241, 241);
   }
 
   > div:nth-child(n + 8) {
@@ -76,15 +67,15 @@ $grid-button-width: 6vw;
   }
 
   div:nth-child(7) {
-    background-color: white;
+    background-color: $color-white;
 
     > button {
-      font-size: $grid-button-font-size;
-      background-color: white;
+      font-size: 2rem;
+      background-color: $color-white;
       border: 1px solid black;
       cursor: pointer;
       border-radius: 10px;
-      width: $grid-button-width;
+      width: 6vw;
     }
   }
 }

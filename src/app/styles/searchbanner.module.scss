@@ -1,20 +1,8 @@
 $base-color: #f9f5f1;
-$text-color: black;
+$color-black: black;
 $font-size: 1.1rem;
-$line-height: 7vh;
+$input-height: 8vh;
 $text-align: center;
-
-@mixin searchBox-style {
-  box-sizing: border-box;
-  width: 25vw;
-  height: 8vh;
-  border-radius: 10px;
-  border: 2px solid #000;
-  background: #FAF4F4;
-  font-size: $font-size;
-  line-height: $line-height;
-  text-align: $text-align;
-}
 
 .banner {
   background-color: $base-color;
@@ -25,9 +13,17 @@ $text-align: center;
 
   a {
     text-decoration: none;
-    color: $text-color;
+    color: $color-black;
     div {
-      @include searchBox-style;
+      box-sizing: border-box;
+      width: 25vw;
+      height: $input-height;
+      border-radius: 10px;
+      border: 2px solid #000;
+      background: #FAF4F4;
+      font-size: 1.1rem;
+      line-height: $input-height;
+      text-align: center;
     }
   }
 }

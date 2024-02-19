@@ -1,7 +1,7 @@
 $mainBackgroundColor: #f0ece6;
 $mainTextColor: rgb(60, 59, 59);
-$buttonBackgroundColor: rgb(0, 0, 0);
-$mainColor: white;
+$color-white: white;
+$color-black: black;
 
 @mixin flexCenter {
   display: flex;
@@ -25,7 +25,7 @@ $mainColor: white;
   h2 {
     color: $mainTextColor;
     border-radius: 30px;
-    border: 1px solid black;
+    border: 1px solid color-black;
     padding: 10px 30px;
   }
 
@@ -34,11 +34,8 @@ $mainColor: white;
     margin: 2vw;
 
     input[type="range"] {
-      accent-color: $mainColor;
-    }
-
-    span {
-      margin: 0 2vw;
+      accent-color: $color-white;
+      margin: 0 2vw 0 2vw;
     }
 
     div {
@@ -46,9 +43,9 @@ $mainColor: white;
       height: 8vh;
       margin: 0 5vw;
       background-color: rgb(44, 44, 44);
-      border: 1px solid black;
+      border: 1px solid color-black;
       border-radius: 30vw;
-      color: $mainColor;
+      color: $color-white;
       font-size: 14px;
       @include flexCenter;
     }
@@ -57,9 +54,9 @@ $mainColor: white;
   a button {
     width: 10vw;
     height: 7vh;
-    background-color: $buttonBackgroundColor;
-    border: 1px solid $mainColor;
-    color: $mainColor;
+    background-color: $color-black;
+    border: 1px solid $color-white;
+    color: $color-white;
     border-radius: 10vw;
     margin: 0 5vw 3vh;
     font-size: 1.2rem;

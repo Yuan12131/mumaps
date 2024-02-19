@@ -9,38 +9,13 @@ $button-width: 80px;
 $button-height: 35px;
 $div-width: 25vw;
 
-@mixin topbar-div {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 @mixin topbar-link {
   color: $color-white;
   text-decoration: none;
   margin-right: $spacing-medium;
 
   &:hover {
-    color: $color-black;
-  }
-}
-
-@mixin topbar-button {
-  color: $color-white;
-  background-color: rgba(0, 0, 0, 0.716);
-  border: none;
-  border-radius: 5px;
-  width: $button-width;
-  height: $button-height;
-  text-align: center;
-  margin: 5px;
-  line-height: $button-height;
-  font-size: 13px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: rgba(217, 215, 215, 0.307);
-    color: $color-black;
+    color: rgb(52, 52, 52);
   }
 }
 
@@ -52,8 +27,10 @@ $div-width: 25vw;
   display: flex;
 
 
-  > div {
-    @include topbar-div;
+  >div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     &:first-child {
       width: $div-width;
@@ -80,7 +57,22 @@ $div-width: 25vw;
 
       button,
       .login {
-        @include topbar-button;
+        color: $color-white;
+        background-color: rgba(0, 0, 0, 0.716);
+        border: none;
+        border-radius: 5px;
+        width: $button-width;
+        height: $button-height;
+        text-align: center;
+        margin: 5px;
+        line-height: $button-height;
+        font-size: 13px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: rgba(217, 215, 215, 0.307);
+          color: $color-black;
+        }
       }
     }
   }
