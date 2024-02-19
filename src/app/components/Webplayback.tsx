@@ -19,8 +19,8 @@ function WebPlayback(props: { token: string | null; trackId: string }) {
   const [current_track, setTrack] = useState(track);
   const [duration, setDuration] = useState(1);
   const [position, setPosition] = useState(0);
-  const previousDeviceIdRef = useRef<string | null>(null);
   const [showInfoMessage, setShowInfoMessage] = useState(false);
+  const previousDeviceIdRef = useRef<string | null>(null);
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -33,7 +33,7 @@ function WebPlayback(props: { token: string | null; trackId: string }) {
       const player = new window.Spotify.Player({
         name: "MUMUS",
         getOAuthToken: (cb) => {
-          cb(props.token);
+          cb(props.token as string);
         },
         volume: 0.5,
       });
@@ -41,10 +41,8 @@ function WebPlayback(props: { token: string | null; trackId: string }) {
       setPlayer(player);
 
       player.addListener("ready", async ({ device_id }) => {
-        // 이전 트랙이 있다면 정리
         player.removeListener("ready");
 
-        // 새로운 트랙을 재생
         const trackId = props.trackId;
         const response = await fetch(
           `https://api.spotify.com/v1/me/player/play`,
@@ -67,7 +65,6 @@ function WebPlayback(props: { token: string | null; trackId: string }) {
           console.error("Failed to play track:", response.statusText);
         }
 
-        // 디바이스 아이디 저장
         previousDeviceIdRef.current = device_id;
       });
 
@@ -105,28 +102,19 @@ function WebPlayback(props: { token: string | null; trackId: string }) {
 
   return (
     <div className={styles.container}>
-      {current_track ? (
-        <div className={styles.trackWrapper}>
-          <img
-            src={current_track.album.images[0].url}
-            alt="album"
-            width={50}
-            height={50}
-          />
-          <div>
-            <p className={styles.trackName}>{current_track.name}</p>
-            <p className={styles.trackArtist}>
-              {current_track.artists[0].name}
-            </p>
-          </div>
+      <div>
+        <img
+          src={current_track.album.images[0].url}
+          alt="album"
+          width={50}
+          height={50}
+        />
+        <div>
+          <p>{current_track.name}</p>
+          <p>{current_track.artists[0].name}</p>
         </div>
-      ) : (
-        <div className={styles.trackWrapper}>
-          <div className={styles.trackWrapperDiv}></div>
-          <div></div>
-        </div>
-      )}
-      <div className={styles.control}>
+      </div>
+      <div>
         <ProgressBar
           is_paused={is_paused}
           position={position}
@@ -138,11 +126,9 @@ function WebPlayback(props: { token: string | null; trackId: string }) {
           }}
         />
       </div>
-      <button className={styles.infoButton} onClick={handleInfoButtonClick}>
-        ?
-      </button>
+      <button onClick={handleInfoButtonClick}>?</button>
       {showInfoMessage && (
-        <div className={styles.infoMessage}>
+        <div>
           <p>Spotify에서 MUMUS 디바이스를 연결해야 재생됩니다.</p>
           <button onClick={handleInfoCloseClick}>X</button>
         </div>
