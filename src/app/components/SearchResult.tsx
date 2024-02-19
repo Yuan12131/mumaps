@@ -15,6 +15,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
   searchType,
   handleTrackClick,
 }) => {
+  
   return (
     <div className={styles.result}>
       {searchType === "track" && (
