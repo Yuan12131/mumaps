@@ -3,13 +3,18 @@ import styles from "@/app/styles/recommandbar.module.scss";
 
 interface RecommandBarProps {
   valence: number;
+  setValence: (valence: number) => void;
   energy: number;
+  setEnergy: (energy: number) => void;
   danceability: number;
+  setDanceability: (danceability: number) => void;
   instrumentalness: number;
+  setInstrumentalness: (instrumentalness: number) => void;
   popularity: number;
+  setPopularity: (instrumentalness: number) => void;
   tempo: number;
-  onSubmit: (
-    e: FormEvent,
+  setTempo: (instrumentalness: number) => void;
+  searchSpotify: (
     valence: number,
     energy: number,
     danceability: number,
@@ -19,13 +24,12 @@ interface RecommandBarProps {
   ) => void;
 }
 
-const RecommandBar: FC<RecommandBarProps> = ({ onSubmit }) => {
-  const [valence, setValence] = useState<number>(0.5);
-  const [danceability, setDanceability] = useState<number>(0.5);
-  const [energy, setEnergy] = useState<number>(0.5);
-  const [instrumentalness, setInstrumentalness] = useState<number>(0.5);
-  const [tempo, setTempo] = useState<number>(120);
-  const [popularity, setPopularity] = useState<number>(50);
+const RecommandBar: FC<RecommandBarProps> = ({ valence, setValence, energy, setEnergy, danceability, setDanceability, instrumentalness, setInstrumentalness, popularity, setPopularity, tempo, setTempo, searchSpotify }) => {
+
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    searchSpotify( valence, energy, danceability, instrumentalness, popularity, tempo );
+  };
 
   return (
     <>
@@ -102,20 +106,7 @@ const RecommandBar: FC<RecommandBarProps> = ({ onSubmit }) => {
         FAST
       </div>
       <div className={styles.go}>
-        <button
-          type="button"
-          onClick={(e) =>
-            onSubmit(
-              e,
-              valence,
-              energy,
-              danceability,
-              instrumentalness,
-              popularity,
-              tempo
-            )
-          }
-        >
+        <button type="button" onClick={onSubmit}>
           GO
         </button>
       </div>
