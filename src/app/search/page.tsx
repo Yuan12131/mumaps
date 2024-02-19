@@ -7,7 +7,7 @@ import WebPlayback from "../components/Webplayback";
 import SearchBar from "../components/SearchBar";
 import SearchResult from "../components/SearchResult";
 import { TrackInfo } from "../components/utils/trackinfo";
-import { getSearchToken } from "../components/utils/auth";
+import { getSearchToken, getAccessToken } from "../components/utils/auth";
 
 const SearchPage = () => {
   const [query, setQuery] = useState<string>("");
@@ -21,6 +21,8 @@ const SearchPage = () => {
     async function getTokens() {
       try {
         const searchToken = await getSearchToken();
+        const accessToken = await getAccessToken();
+        setToken(accessToken)
         setSearchToken(searchToken);
       } catch (error) {
         console.error("토큰을 가져오는 도중 오류가 발생했습니다.", error);
