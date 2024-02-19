@@ -24,7 +24,7 @@ function Topbar() {
 
   const links = [
     { name: "SEARCH", href: "/search" },
-    { name: "RECOMMAND", href: "/algorithm" },
+    { name: "RECOMMAND", href: "/recommand" },
   ];
 
   const handleLogout = async () => {
