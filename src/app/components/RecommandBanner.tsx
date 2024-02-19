@@ -8,42 +8,42 @@ function RecommandBanner() {
       <h2>6가지의 Audio 특징들을 커스텀해서 음악 추천을 즐겨보세요</h2>
       <div>
         <div>
-          <span>NEGATIVE</span>
+          NEGATIVE
           <input type="range" min="0" max="1" step="0.1" />
-          <span>POSITIVE</span>
+          POSITIVE
         </div>
         <div>
-          <span>SOFT</span>
+          SOFT
           <input type="range" min="0" max="1" step="0.1" />
-          <span>POWERFUL</span>
-        </div>
-      </div>
-      <div>
-        <div>
-          <span>STATIC</span>
-          <input type="range" min="0" max="1" step="0.1" />
-          <span>DYNAMIC</span>
-        </div>
-        <div>
-          <span>MUSICAL</span>
-          <input type="range" min="0" max="1" step="0.1" />
-          <span>INSTRUMENTAL</span>
+          POWERFUL
         </div>
       </div>
       <div>
         <div>
-          <span>UNPOPULAR</span>
+          STATIC
+          <input type="range" min="0" max="1" step="0.1" />
+          DYNAMIC
+        </div>
+        <div>
+          MUSICAL
+          <input type="range" min="0" max="1" step="0.1" />
+          INSTRUMENTAL
+        </div>
+      </div>
+      <div>
+        <div>
+          UNPOPULAR
           <input type="range" min="0" max="100" step="1" />
-          <span>POPULAR</span>
+          POPULAR
         </div>
         <div>
-          <span>SLOW</span>
+          SLOW
           <input type="range" min="60" max="180" step="5" />
-          <span>FAST</span>
+          FAST
         </div>
       </div>
 
-      <Link href="/algorithm">
+      <Link href="/recommand">
         <button type="button">T R Y</button>
       </Link>
     </div>
