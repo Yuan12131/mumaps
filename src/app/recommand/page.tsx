@@ -6,7 +6,7 @@ import axios from "axios";
 import WebPlayback from "../components/Webplayback";
 import RecommandBar from "../components/RecommandBar";
 import { TrackInfo } from "../components/utils/trackinfo";
-import { getSearchToken } from "../components/utils/auth";
+import { getSearchToken, getAccessToken } from "../components/utils/auth";
 import RecommandResult from "../components/RecommandResult";
 
 const Recommend = () => {
@@ -19,7 +19,6 @@ const Recommend = () => {
 
   const [showResults, setShowResults] = useState<boolean>(false);
   const [searchResults, setSearchResults] = useState<TrackInfo[]>([]);
-  const [searchType, setSearchType] = useState<string>("track");
   const [selectedTrack, setSelectedTrack] = useState<TrackInfo | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [searchToken, setSearchToken] = useState<string | null>(null);
@@ -28,6 +27,8 @@ const Recommend = () => {
     async function getTokens() {
       try {
         const searchToken = await getSearchToken();
+        const accessToken = await getAccessToken();
+        setToken(accessToken);
         setSearchToken(searchToken);
       } catch (error) {
         console.error("토큰을 가져오는 도중 오류가 발생했습니다.", error);
@@ -54,6 +55,7 @@ const Recommend = () => {
           },
         }
       );
+      setShowResults(true);
 
       const recommendedTracks = data.tracks || [];
 
@@ -61,12 +63,6 @@ const Recommend = () => {
     } catch (error) {
       console.error("Error searching Spotify:", error);
     }
-  };
-
-  const onSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    await searchSpotify();
-    setShowResults(true);
   };
 
   const onNewSearch = () => {
@@ -83,12 +79,18 @@ const Recommend = () => {
         {!showResults && (
           <RecommandBar
             valence={valence}
+            setValence={setValence}
             energy={energy}
+            setEnergy={setEnergy}
             danceability={danceability}
+            setDanceability={setDanceability}
             instrumentalness={instrumentalness}
+            setInstrumentalness={setInstrumentalness}
             popularity={popularity}
+            setPopularity={setPopularity}
             tempo={tempo}
-            onSubmit={onSubmit}
+            setTempo={setTempo}
+            searchSpotify={searchSpotify}
           />
         )}
         {showResults && (
@@ -119,7 +121,8 @@ const Recommend = () => {
           </>
         )}
       </div>
-      {searchType === "track" && selectedTrack && (
+
+      {showResults && selectedTrack && (
         <WebPlayback trackId={selectedTrack.id} token={token} />
       )}
     </div>
