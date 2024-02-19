@@ -94,24 +94,12 @@ const Recommend = () => {
         {showResults && (
           <>
             <div className={styles.grid}>
-              <div>
-                VALENCE<br></br>0-1
-              </div>
-              <div>
-                ENERGY<br></br>0-1
-              </div>
-              <div>
-                DANCEANILITY<br></br>0-1
-              </div>
-              <div>
-                INSTRUMENTALNESS<br></br>0-1
-              </div>
-              <div>
-                POPULARITY<br></br>0-100
-              </div>
-              <div>
-                BPM<br></br>60-180
-              </div>
+              <div>VALENCE<br></br>0-1</div>
+              <div>ENERGY<br></br>0-1</div>
+              <div>DANCEANILITY<br></br>0-1</div>
+              <div>INSTRUMENTALNESS<br></br>0-1</div>
+              <div>POPULARITY<br></br>0-100</div>
+              <div>BPM<br></br>60-180</div>
               <div>
                 <button type="button" className="back" onClick={onNewSearch}>
                   🔙
