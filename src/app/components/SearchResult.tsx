@@ -87,9 +87,9 @@ const SearchResults: React.FC<SearchResultsProps> = ({
                     src={artist.images[0].url}
                     alt={artist.name}
                     style={{
-                      width: "12vw",
-                      height: "12vw",
-                      borderRadius: "12vw",
+                      width: "10vw",
+                      height: "10vw",
+                      borderRadius: "10vw",
                     }}
                   />
                 )}
