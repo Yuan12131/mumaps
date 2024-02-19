@@ -18,7 +18,7 @@ $grid-row-height: 5vh;
   align-items: center;
   background-color: $color-black;
   
-  > div {
+  > div:nth-child(1) {
     width: $container-inner-width;
     height: $container-inner-height;
     background-color: $color-white;
