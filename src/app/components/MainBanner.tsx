@@ -26,7 +26,7 @@ function MainBanner() {
         <Link href={`/search`}>
           <button>SEARCH</button>
         </Link>
-        <Link href={`/algorithm`}>
+        <Link href={`/recommand`}>
           <button>RECOMMAND</button>
         </Link>
       </div>
