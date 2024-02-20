@@ -58,7 +58,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
               <div>{formatDuration(track.duration_ms)}</div>
               <div>
                 <img
-                  src="/images/play_circle.svg"
+                  src="/play_circle.svg"
                   alt={track.name}
                   style={{
                     width: "3vw",
