@@ -107,15 +107,16 @@ $album-card-height: 36vh;
 }
 
 .albumResults {
-  height: 50vh;
   width: 90vw;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   font-size: 0.9rem;
+  padding: 2vw;
 
   div {
     width: 15vw;
+    height: 40vh;
     height: $album-card-height;
     background-color: $card-background-color;
     border-radius: 10px;
