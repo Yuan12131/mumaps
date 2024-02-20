@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from "react";
 import styles from "@/app/styles/mainbanner.module.scss";
 import Link from "next/link";
@@ -12,15 +13,11 @@ function MainBanner() {
 
   return (
     <div className={styles.banner}>
-      {hasWindow && (
-        <video
-          className={styles.video}
-          autoPlay={true}
-          muted={true}
-          loop={true}
-          src={require("../../../public/video.mp4")}
+        <img
+          className={styles.img}
+          alt="play.jpg"
+          src={"/play.jpg"}
         />
-      )}
       <div>
         나만의 취향으로 만드는 <br></br>나만의 플레이어<br></br>
         <Link href={`/search`}>
